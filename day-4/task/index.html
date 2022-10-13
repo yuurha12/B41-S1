@@ -11,7 +11,7 @@
             <ul>
                 <li><a href="index.html"><img src="./assets/images/dw.png"></a></li>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="#">My Project</a></li>
+                <li><a href="./Myproject.html">My Project</a></li>
             </ul>
         </div>
         <div class="nav-right">
@@ -26,16 +26,16 @@
                         <h1>ADD MY PROJECT</h1>
                         <div>
                             <label for="input-tittle">Project Name</label>
-                            <input id="Tittle">
+                            <input id="tittle">
                         </div>
                         <div class="date">
                             <div style="padding-right: 30px;">
                                 <label for="input-start-date">Start Date</label>
-                                <input id="start">
+                                <input type="number" id="start">
                             </div>
                             <div>
                                 <label for="input-end-date">End Date</label>
-                                <input id="end">
+                                <input type="number" id="end">
                             </div>
                         </div>
                         <div>
@@ -46,7 +46,7 @@
                             <h2>Technologies</h2>
                         </div>
                     </div>
-                        <div class="input-checkbox">
+                        <div id="js" class="input-checkbox">
                         <div>
                             <input type="checkbox" id="js1" name="js1" value="Node Js">
                             <label for="js1"> Node Js</label>
@@ -61,8 +61,8 @@
                         </div>     
                     </div>
                     <div class="input-image-content">
-                        <label for="input-blog-image" class="form-label" style="font-size:35px; font-weight:600; position: relative; left: 22px;">Upload image</label>
-                        <input type="file" style="border: 2px solid; background-color: rgb(150, 138, 138); width: 500px;cursor: pointer; " />
+                        <label for="input-blog-image" style="font-size:35px; font-weight:600; position: relative; left: 22px;">Upload image</label>
+                        <input id="input-image" type="file" style="border: 2px solid; background-color: rgb(150, 138, 138); width: 500px;cursor: pointer; " />
                     </div>
                     <div>
                         <button class="btn-pst">submit</button>
@@ -78,7 +78,7 @@
         <h1 class="ttl">MY PROJECT</h1>
     <div id="contents" class="blog-list">
         <div class="blog-list-item">
-            <div class="blog-images">
+            <div class="blog-image">
                 <img src="https://onsitetechsolutions.com.au/wp-content/uploads/2020/12/mobile-app-development-utiltiies-for-business.jpg">
             </div>
             <div>    
