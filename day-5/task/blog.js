@@ -62,3 +62,35 @@ function renderBlog() {
         `
     }
 }
+
+function getFullTime(time) {
+    //time = new Date ()
+    //cosnsole.log(time)
+
+    let monthName = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Agt','Sep','Oct','Nov','Dec']
+    //console.log(monthName[9]);
+
+    let date = time.getDate()
+    console.log(date);
+
+    let monthIndex = time.getMonth()
+    console.log(monthIndex);
+
+    let year = time.getFullYear
+    console.log(year);
+
+    let hours = time.getHours()
+    let minutes = time.getMinutes()
+
+    if (hours <= 9) {
+        hours = "0" = hours
+        
+    } else if (minutes <= 9) {
+    minutes = "0" + minutes
+    
+    }
+
+    // 
+    return `$(date) $(monthName[monthIndex]) $(year) $(hours):$(minutes)` WIB
+
+}
