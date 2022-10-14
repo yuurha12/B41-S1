@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="./nav.css">
+    <link rel="stylesheet" href="./blog.css">
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-left">
+            <ul>
+                <li><a href="index.html"><img src="./assets/images/dw.png"></a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="./Myproject.html">My Project</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <a href="./contact.html">Contact Me</a>
+        </div>
+    </nav>
+    <div class="blog">
+        <div class="blog-form">
+            <div class="form-container">
+                <div>
+                    <form onsubmit="addBlog(event)">
+                        <h1>ADD MY PROJECT</h1>
+                        <div>
+                            <label for="input-tittle">Project Name</label>
+                            <input id="tittle">
+                        </div>
+                        <div class="date">
+                            <div style="padding-right: 30px;">
+                                <label for="input-start-date">Start Date</label>
+                                <input type="number" id="start">
+                            </div>
+                            <div>
+                                <label for="input-end-date">End Date</label>
+                                <input type="number" id="end">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="input-content">Description</label>
+                            <textarea id="input-content"></textarea>
+                        </div>
+                        <div>
+                            <h2>Technologies</h2>
+                        </div>
+                    </div>
+                        <div id="js" class="input-checkbox">
+                        <div>
+                            <input type="checkbox" id="js1" name="js1" value="Node Js">
+                            <label for="js1"> Node Js</label>
+                            <input type="checkbox" id="js2" name="js2" value="React Js">
+                            <label for="js2"> React Js</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="js3" name="js3" value="Next Js">
+                            <label for="js3"> Next Js</label>
+                            <input type="checkbox" style="position: relative; left: 6px ;" id="js4" name="js4" value="TypeScript">
+                            <label for="js4" style="position: relative ; left:5px;"> TypeScript</label>
+                        </div>     
+                    </div>
+                    <div class="input-image-content">
+                        <label for="input-blog-image" style="font-size:35px; font-weight:600; position: relative; left: 22px;">Upload image</label>
+                        <input id="input-image" type="file" style="border: 2px solid; background-color: rgb(150, 138, 138); width: 500px;cursor: pointer; " />
+                    </div>
+                    <div>
+                        <button class="btn-pst">submit</button>
+                    </div>                        
+                </div>
+        </div>
+            </form>    
+        </div>
+    </div>
+            </div>
+        </div>
+        <hr/>
+        <h1 class="ttl">MY PROJECT</h1>
+    <div id="contents" class="blog-list">
+        <div class="blog-list-item">
+            <div class="blog-image">
+                <img src="https://onsitetechsolutions.com.au/wp-content/uploads/2020/12/mobile-app-development-utiltiies-for-business.jpg">
+            </div>
+            <div>    
+                <h1 class="detail-blog-tittle">
+                    <a>Dumbways Mobile App 2021</a>
+                </h1>
+            </div>
+            <div class="detail-blog-author">
+                13 oktober 2022 10:24 WIB
+            </div>
+            App that used for dumbways student, it was deployed and can downloaded on playstore. Happy download
+        </p>
+        <div class="icon2">
+            <i style="padding:10px ;" class="fa-brands fa-google-play"></i>
+            <i style="padding:10px ;" class="fa-brands fa-android"></i>
+            <i style="padding:10px ;" class="fa-brands fa-java"></i>
+        </div>            
+        <div class="blog-content">
+            <div class="btn-group">
+            <button class="btn-edit">Edit</button>
+            <button class="btn-post">Delete</button>
+        </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="./blog.js"></script>
+</html>
