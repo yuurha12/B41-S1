@@ -22,20 +22,20 @@
         <div class="blog-form">
             <div class="form-container">
                 <div>
-                    <form onsubmit="addBlog(event)">
+                <form onsubmit="addBlog(event); this.reset(); return false">
                         <h1>ADD MY PROJECT</h1>
                         <div>
                             <label for="input-tittle">Project Name</label>
-                            <input id="tittle">
+                            <input id="input-tittle">
                         </div>
                         <div class="date">
                             <div style="padding-right: 30px;">
                                 <label for="input-start-date">Start Date</label>
-                                <input id="start">
+                                <input type="number" id="start">
                             </div>
                             <div>
                                 <label for="input-end-date">End Date</label>
-                                <input id="end">
+                                <input type="number" id="end">
                             </div>
                         </div>
                         <div>
@@ -46,7 +46,7 @@
                             <h2>Technologies</h2>
                         </div>
                     </div>
-                        <div class="input-checkbox" id="js">
+                    <div class="input-checkbox" id="js">
                         <div>
                             <input type="checkbox" id="js1" name="js1" value="Node Js">
                             <label for="js1"> Node Js</label>
@@ -60,47 +60,49 @@
                             <label for="js4" style="position: relative ; left:5px;"> TypeScript</label>
                         </div>     
                     </div>
-                    <div class="input-image-content">
-                        <label for="input-image" class="form-label" style="font-size:35px; font-weight:600; position: relative; left: 22px;">Upload image</label>
-                        <input type="file" style="border: 2px solid; background-color: rgb(150, 138, 138); width: 500px;cursor: pointer; " />
+                    <div class="input-blog-image-group">
+                        <label for="input-blog-images" class="form-label" style="font-size:35px; font-weight:600; position: relative; left: 22px;">Upload image</label>
+                        <input id="input-blog-image" type="file" style="border: 2px solid; background-color: rgb(150, 138, 138); width: 500px;cursor: pointer; " />
                     </div>
                     <div>
                         <button class="btn-pst">submit</button>
                     </div>                        
+                </form>
                 </div>
-        </div>
-            </form>    
+            </div>   
         </div>
     </div>
-            </div>
+</div>
         </div>
         <hr/>
-        <h1 class="ttl">MY PROJECT</h1>
-    <div id="contents" class="blog-list">
-        <div class="blog-list-item">
-            <div class="blog-image">
-                <img src="https://onsitetechsolutions.com.au/wp-content/uploads/2020/12/mobile-app-development-utiltiies-for-business.jpg">
-            </div>
-            <div>    
-                <h1 class="detail-blog-tittle">
-                    <a>Dumbways Mobile App 2021</a>
-                </h1>
-            </div>
-            <div class="detail-blog-author">
-                13 oktober 2022 10:24 WIB
-            </div>
-            App that used for dumbways student, it was deployed and can downloaded on playstore. Happy download
-        </p>
-        <div class="icon2">
-            <i style="padding:10px ;" class="fa-brands fa-google-play"></i>
-            <i style="padding:10px ;" class="fa-brands fa-android"></i>
-            <i style="padding:10px ;" class="fa-brands fa-java"></i>
-        </div>            
-        <div class="blog-content">
-            <div class="btn-group">
-            <button class="btn-edit">Edit</button>
-            <button class="btn-post">Delete</button>
-        </div>
+        <div id="contents" class="blog-list">
+            <div class="blog-list-item">
+                <div class="blog-image">
+                    <img src="./assets/images/cd.jpg">
+                </div>
+                <div class="blog-content">
+                    <div class="btn-group">
+                        <button class="btn-edit">Edit</button>
+                        <button class="btn-post">Delete</button>
+                    </div>
+                    <h1>
+                        <a href="blog-detail.html" target="_blank">
+                            Pasar Coding di Indonesia Dinilai Masih Menjanjikan
+                        </a>
+                    </h1>
+                    <div class="detail-blog-content">
+                        12 Jul 2021 22:30 WIB | Ichsan Emrald Alamsyah
+                    </div>
+                    <p>
+                        Ketimpangan sumber daya manusia (SDM) di sektor digital masih
+                        menjadi isu yang belum terpecahkan. Berdasarkan penelitian
+                        ManpowerGroup, ketimpangan SDM global, termasuk Indonesia,
+                        meningkat dua kali lipat dalam satu dekade terakhir. Lorem ipsum,
+                        dolor sit amet consectetur adipisicing elit. Quam, molestiae
+                        numquam! Deleniti maiores expedita eaque deserunt quaerat! Dicta,
+                        eligendi debitis?
+                    </p>
+                </div>
             </div>
         </div>
     </div>

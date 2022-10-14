@@ -3,11 +3,8 @@ let dataBlog = []
 function addBlog(event) {
     event.preventDefault()
 
-    let tittle = document.getElementById("input-tittle").value
-    let start = document.getElementById("start").value
-    let end = document.getElementById("end").value
+    let title = document.getElementById("input-title").value
     let content = document.getElementById("input-content").value
-    let tech = document.getElementById("js").checked = true;
     let image = document.getElementById("input-blog-image").files[0]
 
     // buat url gambar nantinya tampil
@@ -15,14 +12,11 @@ function addBlog(event) {
     console.log(image)
 
     let blog = {
-        tittle,
-        start,
-        end,
+        title,
         content,
-        tech,
         image,
         postAt: new Date(),
-        author: "Hoki Wahyu"
+        author: "Abel Dustin"
     }
 
     dataBlog.push(blog)
@@ -44,12 +38,12 @@ function renderBlog() {
             </div>
             <div class="blog-content">
                 <div class="btn-group">
-                    <button class="btn-edit">Edit</button>
-                    <button class="btn-post">Delete</button>
+                    <button class="btn-edit">Edit Post</button>
+                    <button class="btn-post">Post Blog</button>
                 </div>
                 <h1>
                     <a href="blog-detail.html" target="_blank">
-                        ${dataBlog[index].tittle}
+                        ${dataBlog[index].title}
                     </a>
                 </h1>
                 <div class="detail-blog-content">
@@ -66,7 +60,6 @@ function renderBlog() {
         `
     }
 }
-
 
 function getFullTime(time) {
     // time = new Date()
@@ -132,8 +125,7 @@ function getDistanceTime(time) {
 }
 
 // 1#
-
-/*setInterval(function() {
+setInterval(function() {
     renderBlog()
 }, 3000)
 
@@ -142,4 +134,4 @@ function getDistanceTime(time) {
 
 // function intervalFunction() {
 //     renderBlog()
- }*/
+// }
