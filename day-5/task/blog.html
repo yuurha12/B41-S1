@@ -9,7 +9,7 @@
     <nav class="nav">
         <div class="nav-left">
             <ul>
-                <li><a href="home.html"><img src="./assets/images/dw.png"></a></li>
+                <li><a href="home.html"><img src="./assets/images/dw2.png"></a></li>
                 <li><a href="home.html">Home</a></li>
                 <li><a href="./blog.html">My Project</a></li>
             </ul>
@@ -46,17 +46,17 @@
                             <h2>Technologies</h2>
                         </div>
                     </div>
-                    <div class="input-checkbox" id="js">
+                    <div class="input-checkbox" id="input-checkbox">
                         <div>
-                            <input type="checkbox" id="js1" name="js1" value="Node Js">
+                            <input type="checkbox" id="js1" name="js1" value="Node Js" onchange="some_var=this.checked;">
                             <label for="js1"> Node Js</label>
-                            <input type="checkbox" id="js2" name="js2" value="React Js">
+                            <input type="checkbox" id="js2" name="js2" value="React Js" onchange="some_var=this.checked;">
                             <label for="js2"> React Js</label>
                         </div>
                         <div>
-                            <input type="checkbox" id="js3" name="js3" value="Next Js">
+                            <input type="checkbox" id="js3" name="js3" value="Next Js" onchange="some_var=this.checked;">
                             <label for="js3"> Next Js</label>
-                            <input type="checkbox" style="position: relative; left: 6px ;" id="js4" name="js4" value="TypeScript">
+                            <input type="checkbox" style="position: relative; left: 6px ;" id="js4" name="js4" value="TypeScript" onchange="some_var=this.checked;">
                             <label for="js4" style="position: relative ; left:5px;"> TypeScript</label>
                         </div>     
                     </div>
@@ -65,7 +65,7 @@
                         <input id="input-blog-image" type="file" style="border: 2px solid; background-color: rgb(150, 138, 138); width: 500px;cursor: pointer; " />
                     </div>
                     <div>
-                        <button class="btn-pst">submit</button>
+                        <button class="btn-pst" id="btn">submit</button>
                     </div>                        
                 </form>
                 </div>
@@ -91,7 +91,9 @@
                         </a>
                     </h1>
                     <div class="detail-blog-content">
-                        12 Jul 2021 22:30 WIB | Ichsan Emrald Alamsyah
+                        <div>
+                            12 Jul 2021 22:30 WIB | Hoki
+                        </div>
                     </div>
                     <p>
                         Ketimpangan sumber daya manusia (SDM) di sektor digital masih

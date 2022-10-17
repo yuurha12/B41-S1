@@ -7,10 +7,10 @@ body {
 }
 
 .nav {
-    background-color: silver;
+    background-color: #f4f3f3;
     display: flex;
     align-items: center;
-    height: 10vh;
+    height: 12vh;
 }
 
 .nav ul {
@@ -21,13 +21,15 @@ body {
 
 .nav ul li {
     margin-right: 30px;
-    color: white;
+    color: black;
     font-weight: bold;
     font-size: 25px;
 }
 
 .nav ul li img {
-    width: 75px;
+    padding-top: 8px;
+    width: 50px;
+    height: 35px;
 }
 
 .nav-left {
@@ -36,7 +38,7 @@ body {
 }
 
 .nav-left li a{
-    color: white;
+    color: black;
 }
 
 .nav-right {
@@ -47,7 +49,7 @@ body {
     width: 150px;
     height: 35px;
     border-radius: 8px;
-    background-color: rgb(163, 163, 204);
+    background-color: #111727;
 }
 
 .nav-right a {

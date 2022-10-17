@@ -1,28 +1,36 @@
+body {
+    margin: 0;
+}
+
 .nosce {
     border: 1px groove black;
     box-shadow: 0 0 20px;
-    margin: 200px auto;
+    margin: 50px auto;
     width: 1200px;
     height: 500px;
-    padding: 50px;
-    text-align: left;
+    padding: 40px;
     align-items: center;
     display: flex;
+    flex-direction: row;
+
 }
 
-.nosce button {
+.ctc button {
     float: left;
     font-size: 20px;
     width: 100px;
+    height: 35px;
     border-radius: 10px;
     background-color: rgb(3, 13, 68);
     color: white;
     cursor: pointer;
+    position: relative;
+    right: 5px;
+    text-align: center;
 }
 
-.nosce button:hover {
-    background-color:blue ;
-}
+
+
 
 
 .dl {
@@ -31,6 +39,7 @@
     font-size: 20px;
     position: relative;
     left: 10px;
+    margin-top: 5px;
 }
 
 #icon {
@@ -38,30 +47,39 @@
     overflow: hidden;
     float: left;
     font-size: 20px;
+    position: relative;
+    left: 2px;
+    margin-top: 4px;
 }
 
 .socmed {
-    margin-top: 350px;
-    position: absolute;
     display: flex;
-    float: left;
     font-size: 40px;
-    left: 95px;
+    position: relative;
+    float: left;
+    right: 22px;
 }
 
 
 
-#rhoma {
-  padding-left: 20px;
+.rhm {
+    border: 1px #f8f8f8 solid;
+    padding: 10px;
+    background-color: #f8f5f5;
 }
+
 
 strong {
-    position: relative;
-    left: 150px;
+   position: relative;
+   left :140px;
 
 }
 
 .fs {
     position: relative;
-    left:145px;
+    left: 135px;
+}
+
+.socmed a{
+    color: black;
 }

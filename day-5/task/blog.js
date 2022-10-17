@@ -7,7 +7,7 @@ function addBlog(event) {
     let start = document.getElementById("start").value
     let end = document.getElementById("end").value
     let content = document.getElementById("input-content").value
-    let tech = document.getElementById("js").checked = true;
+    let tech = document.getElementById("input-checkbox").checked = true;
     let image = document.getElementById("input-blog-image").files[0]
 
     // buat url gambar nantinya tampil
@@ -57,10 +57,7 @@ function renderBlog() {
                 </div>
                 <p>
                     ${dataBlog[index].content}
-                </p>
-                <div>
-                    <p style="font-size: 15px; color: grey">${getDistanceTime(dataBlog[index].postAt)}</p>
-                </div>
+                </p> 
             </div>
         </div>
         `
@@ -69,11 +66,11 @@ function renderBlog() {
 
 
 function getFullTime(time) {
-    // time = new Date()
-    // console.log(time)
+    time = new Date()
+    console.log(time)
 
     let monthName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-    // console.log(monthName[9])
+    console.log(monthName[9])
 
     // 14
     let date = time.getDate()
@@ -131,15 +128,14 @@ function getDistanceTime(time) {
     }
 }
 
-// 1#
+console.log(time);
 
-/*setInterval(function() {
+setInterval(function() {
     renderBlog()
-}, 3000)
+}, 6000)
 
-// 2#
-// setInterval(intervalFunction, 3000)
+ setInterval(intervalFunction, 6000)
 
-// function intervalFunction() {
-//     renderBlog()
- }*/
+ function intervalFunction() {
+     renderBlog()
+ }
