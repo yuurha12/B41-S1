@@ -48,7 +48,7 @@ function renderBlog() {
                 </div>
                 <div>
                 <h2 style="color:grey;">
-                Durasi: ${getDistanceTime(dataBlog[index].timePost)}
+                Durasi: ${getDistanceTime(dataBlog[index].postAt)}
                 </div>
                 </div>
                 <h1>
