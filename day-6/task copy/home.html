@@ -2,23 +2,24 @@
 <html>
     <head>
         <title>HOME</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
         <link rel="stylesheet" href="./styling.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     </head>
     <body>
-        <div>
+        <div class="bg">
             <nav class="d-flex navbar navbar-light bg-light">
                 <nav class="navbar">
-                    <a class="navbar-brand" href="./index.html">
+                    <a class="navbar-brand" href="./home.html">
                         <img src="./assets/images/dw2.png" width="60" height="40" alt="">
                     </a>
                     <ul class="nav justify-content-start">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">HOME</a>
+                            <a class="nav-link active" href="./home.html">HOME</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Add Project</a>
+                            <a class="nav-link" href="./blog.html">Add Project</a>
                         </li>
                     </ul>
                 </nav>
@@ -32,10 +33,51 @@
                     </ul>
                 </nav>
             </nav>
+            <div class="container">
+                <div class="card d-flex justify-content-center max-width:100%; p-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">      
+                                <div class="d-flex justify-content-start">
+                                    <h5 class="card-title">Hi Welcome to my hut</h5>
+                                </div>                    
+                                <div class="d-flex flex-row justify-content-start mb-3">
+                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.                        
+                                    </p>
+                                </div>
+                                <div id="txt" class="d-flex justify-content-start">
+                                    <div id="ctc" class="mr-1">
+                                        <a href="./contact.html"><button type="button" class="btn btn-dark">contact</button></a>
+                                        
+                                    </div>
+                                    <div class="mr-1 mt-1">
+                                        <p class="dl">download CV</p>
+                                        
+                                    </div>
+                                    <div class="mr-1 mt-1">
+
+                                        <i id="icon" class="fa-sharp fa-solid fa-download"></i>
+                                    </div>
+                                </div>
+                                <div class="scm">
+                                    <a href="https://id.linkedin.com"><i style="padding-left:5px ; padding-right: 20px;" class="fa-brands fa-linkedin"></i></a>
+                                    <a href="https://instagram.com"><i style="padding:20px ;" class="fa-brands fa-square-instagram"></i></a>
+                                    <a href="https://facebook.com"><i style="padding:20px ;" class="fa-brands fa-facebook"></i></a>
+                                    <a href="https://twitter.com"><i style="padding:20px ;" class="fa-brands fa-square-twitter"></i></a>
+                                </div>
+                            </div>
+                                <div class="col">
+                                    <img class="col-sm" src="./assets/images/rhoma.jpg" alt="sans"/>
+                                    <h2 class="text-center">RHOMA IRAMA</h2>
+                                    <p class="text-center">Fustack Developer</p>    
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
             <div>
-                <form>
-                    
-                </form>
+                
             </div>
         </div>
     </body>
