@@ -27,17 +27,15 @@ body {
 }
 
 .blog-form form label, h2, input {
-    margin: 15px;
-    align-items: center;
+    margin: 20px;
     font-size: 30px;
     font-weight: 500;
-    justify-content: center;
 }
 
-.blog-form .pj input, .dc textarea {
-    font-weight: 500;
+.blog-form form input, textarea {
     width: 100%;
-    font-size: medium;
+    font-size: 50px;
+    font-weight: 500;
     padding: 8px;
     margin-top: 7px;
     margin: 20px;
@@ -63,8 +61,10 @@ body {
     cursor: pointer;
 }
 
-.date {
- display: flex; 
+.blog-form .form-container .date {
+    width: 500px;
+    display: flex;
+    flex-direction: row;    
 
 }
 
@@ -97,10 +97,7 @@ body {
 }
 
 .blog .blog-list .blog-list-item .blog-image {
-    width: fit-content;
-    height: fit-content;
     flex: 1;
-
 }
 
 .blog .blog-list .btn-group {
@@ -215,6 +212,15 @@ h2 {
     display: flex;;
 }
 
+.blog .blog-list .blog-list-item .blog-image {
+    flex: 1;
+}
+
+.blog .blog-list .blog-list-item .blog-image img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    }
 
 .blog .blog-list .blog-list-item .blog-content {
     padding-left: 20px;
