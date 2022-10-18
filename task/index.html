@@ -22,23 +22,23 @@
         <div class="blog-form">
             <div class="form-container">
                 <div>
-                <form onsubmit="addBlog(event); this.reset(); return false">
+                    <form onsubmit="addBlog(event); this.reset(); return false">
                         <h1>ADD MY PROJECT</h1>
-                        <div class="pj">
+                        <div>
                             <label for="input-tittle">Project Name</label>
                             <input id="input-tittle">
                         </div>
                         <div class="date">
-                            <div>
+                            <div style="padding-right: 30px;">
                                 <label for="input-start-date">Start Date</label>
-                                <input type="date" id="start">
+                                <input type="number" id="start">
                             </div>
                             <div>
                                 <label for="input-end-date">End Date</label>
-                                <input type="date" id="end">
+                                <input type="number" id="end">
                             </div>
                         </div>
-                        <div class="dc">
+                        <div>
                             <label for="input-content">Description</label>
                             <textarea id="input-content"></textarea>
                         </div>
@@ -46,28 +46,28 @@
                             <h2>Technologies</h2>
                         </div>
                     </div>
-                    <div class="input-checkbox" id="input-checkbox">
+                    <div class="input-checkbox" id="js">
                         <div>
-                            <input type="checkbox" id="js1" name="js1" value="Node Js" onchange="some_var=this.checked;">
+                            <input type="checkbox" id="js1" name="js1" value="Node Js">
                             <label for="js1"> Node Js</label>
-                            <input type="checkbox" id="js2" name="js2" value="React Js" onchange="some_var=this.checked;">
+                            <input type="checkbox" id="js2" name="js2" value="React Js">
                             <label for="js2"> React Js</label>
                         </div>
                         <div>
-                            <input type="checkbox" id="js3" name="js3" value="Next Js" onchange="some_var=this.checked;">
+                            <input type="checkbox" id="js3" name="js3" value="Next Js">
                             <label for="js3"> Next Js</label>
-                            <input type="checkbox" style="position: relative; left: 6px ;" id="js4" name="js4" value="TypeScript" onchange="some_var=this.checked;">
+                            <input type="checkbox" style="position: relative; left: 6px ;" id="js4" name="js4" value="TypeScript">
                             <label for="js4" style="position: relative ; left:5px;"> TypeScript</label>
                         </div>     
                     </div>
                     <div class="input-blog-image-group">
-                        <label for="input-blog-images" class="form-label" style="font-size:35px; font-weight:600; position: relative; left: 22px;">Upload image</label>
+                        <label for="input-blog-image" class="form-label" style="font-size:35px; font-weight:600; position: relative; left: 22px;">Upload image</label>
                         <input id="input-blog-image" type="file" style="border: 2px solid; background-color: rgb(150, 138, 138); width: 500px;cursor: pointer; " />
                     </div>
                     <div>
-                        <button class="btn-pst" id="btn">submit</button>
+                        <button class="btn-pst">submit</button>
+                    </form>
                     </div>                        
-                </form>
                 </div>
             </div>   
         </div>
@@ -90,50 +90,8 @@
                             Pasar Coding di Indonesia Dinilai Masih Menjanjikan
                         </a>
                     </h1>
-                    <div class="detail-blog-content" style="color: grey;">
-                        <script>
-                        function indays(d1, d2) {
-        var t2 = d2.getTime();
-        var t1 = d1.getTime();
- 
-        return Math.floor((t2-t1)/(24*3600*1000));
-    }
-function inweeks(d1, d2) {
-        var t2 = d2.getTime();
-        var t1 = d1.getTime();
- 
-        return parseInt((t2-t1)/(24*3600*1000*7));
-    }
-  
- function inmonth(d1, d2) {
-        var d1Y = d1.getFullYear();
-        var d2Y = d2.getFullYear();
-        var d1M = d1.getMonth();
-        var d2M = d2.getMonth();
- 
-        return (d2M+12*d2Y)-(d1M+12*d1Y);
-    }
- function inyears(d1, d2) {
-        return d2.getFullYear()-d1.getFullYear();
-    }
-
-var dString = "Sep, 15, 2022";
- 
-var d1 = new Date(dString);
-var d2 = new Date();
-
-let hari = indays(d1, d2);
-
-if(hari > 365){
-document.write("DURASI:"+inyears(d1,d2) + " tahun");
-}else if(hari <= 31 && hari >= 7){
-  document.write("DURASI:"+inweeks(d1,d2) + " minggu");
-}else if(hari> 31 && hari < 365){
-  document.write("DURASI:"+inmonth(d1,d2) + " bulan");
-}else{
-  document.write("DURASI:"+hari +" hari");
-}
-                        </script>
+                    <div class="detail-blog-content">
+                        12 Jul 2021 22:30 WIB | Hoki
                     </div>
                     <p>
                         Ketimpangan sumber daya manusia (SDM) di sektor digital masih
@@ -147,6 +105,7 @@ document.write("DURASI:"+inyears(d1,d2) + " tahun");
                 </div>
             </div>
         </div>
+    </div>
 </body>
 <script src="./blog.js"></script>
 </html>

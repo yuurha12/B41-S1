@@ -90,49 +90,12 @@
                             Pasar Coding di Indonesia Dinilai Masih Menjanjikan
                         </a>
                     </h1>
-                    <div class="detail-blog-content" style="color: grey;">
+                    <div class="detail-blog-content">
+                        <h2 style="color: grey;">DURASI:<span id="datetime"></span></h2>
+
                         <script>
-                        function indays(d1, d2) {
-        var t2 = d2.getTime();
-        var t1 = d1.getTime();
- 
-        return Math.floor((t2-t1)/(24*3600*1000));
-    }
-function inweeks(d1, d2) {
-        var t2 = d2.getTime();
-        var t1 = d1.getTime();
- 
-        return parseInt((t2-t1)/(24*3600*1000*7));
-    }
-  
- function inmonth(d1, d2) {
-        var d1Y = d1.getFullYear();
-        var d2Y = d2.getFullYear();
-        var d1M = d1.getMonth();
-        var d2M = d2.getMonth();
- 
-        return (d2M+12*d2Y)-(d1M+12*d1Y);
-    }
- function inyears(d1, d2) {
-        return d2.getFullYear()-d1.getFullYear();
-    }
-
-var dString = "Sep, 15, 2022";
- 
-var d1 = new Date(dString);
-var d2 = new Date();
-
-let hari = indays(d1, d2);
-
-if(hari > 365){
-document.write("DURASI:"+inyears(d1,d2) + " tahun");
-}else if(hari <= 31 && hari >= 7){
-  document.write("DURASI:"+inweeks(d1,d2) + " minggu");
-}else if(hari> 31 && hari < 365){
-  document.write("DURASI:"+inmonth(d1,d2) + " bulan");
-}else{
-  document.write("DURASI:"+hari +" hari");
-}
+                        var dt = new Date();
+                        document.getElementById("datetime").innerHTML = dt.toLocaleDateString();
                         </script>
                     </div>
                     <p>
@@ -147,6 +110,7 @@ document.write("DURASI:"+inyears(d1,d2) + " tahun");
                 </div>
             </div>
         </div>
+    </div>
 </body>
 <script src="./blog.js"></script>
 </html>
