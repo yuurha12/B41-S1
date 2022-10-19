@@ -4,7 +4,11 @@ h1 {
 }
 
 body {
-    background-color: #dce0e4;
+    background-color: #e3e7eb;
+}
+
+.clr {
+    background-color: #e3e7eb;
 }
 
 form{
