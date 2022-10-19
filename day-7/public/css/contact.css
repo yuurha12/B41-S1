@@ -3,8 +3,12 @@ h1 {
     width: 250px;
 }
 
-body {
-    background-color: #dce0e4;
+body .clr {
+    background-color: #e3e7eb;
+}
+
+.clr {
+    background-color: #e3e7eb;
 }
 
 form{
@@ -33,7 +37,7 @@ input, select, textarea {
     box-shadow: 0 0 5px;
 }
 
-button {
+.sbtm {
     float: right;
     background-color: rgb(20, 11, 39);
     color: rgb(255, 255, 255);
