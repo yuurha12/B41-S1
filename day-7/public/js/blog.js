@@ -7,12 +7,12 @@ function addBlog(event) {
     let start = document.getElementById("start").value
     let end = document.getElementById("end").value
     let content = document.getElementById("input-content").value
-    let tech = document.getElementById("input-checkbox").checked = true;
+    let tech = document.getElementById("js").value
     let image = document.getElementById("input-blog-image").files[0]
 
     // buat url gambar nantinya tampil
     image = URL.createObjectURL(image)
-    console.log(image)
+    console.log(tech)
 
     let blog = {
         tittle,
@@ -27,6 +27,8 @@ function addBlog(event) {
     dataBlog.push(blog)
     console.log(dataBlog)
 
+    console.log("halo hai")
+
     renderBlog()
 }
 
@@ -36,36 +38,40 @@ function renderBlog() {
     for (let index = 0; index < dataBlog.length; index++) {
         console.log("test",dataBlog[index])
 
-        document.getElementById("contents").innerHTML += `
-        <div class="blog-list-item">
-            <div class="blog-image">
-                <img src="${dataBlog[index].image}">
+        const htmlRender = `
+        <a href="blog-detail/1">
+            <div  class="blog-list-item">
+                <div class="blog-image">
+                    <img src="${dataBlog[index].image}">
+                </div>
+                <div class="blog-content">
+                    <div class="btn-group">
+                        <button class="btn-edit">Edit</button>
+                        <button class="btn-post">Delete</button>
+                    </div>
+                    <div>
+                    <h2 style="color:grey;">
+                    Durasi: ${getDistanceTime(dataBlog[index].timePost)}
+                    </div>
+                    </div>
+                    <h1>
+                        <a href="blog-detail.html" target="_blank">
+                            ${dataBlog[index].tittle}
+                        </a>
+                    </h1>
+                    <div class="detail-blog-content">
+                        ${getFullTime(dataBlog[index].postAt)} | ${dataBlog[index].author}
+                    </div>
+                    <p>
+                        ${dataBlog[index].content}
+                    </p> 
+                </div>
             </div>
-            <div class="blog-content">
-                <div class="btn-group">
-                    <button class="btn-edit">Edit</button>
-                    <button class="btn-post">Delete</button>
-                </div>
-                <div>
-                <h2 style="color:grey;">
-                Durasi: ${getDistanceTime(dataBlog[index].timePost)}
-                </div>
-                </div>
-                <h1>
-                    <a href="blog-detail.html" target="_blank">
-                        ${dataBlog[index].tittle}
-                    </a>
-                </h1>
-                <div class="detail-blog-content">
-                    ${getFullTime(dataBlog[index].postAt)} | ${dataBlog[index].author}
-                </div>
-                <p>
-                    ${dataBlog[index].content}
-                </p> 
-            </div>
-        </div>
+        <a/>
         `
+        document.getElementById("contents").innerHTML += htmlRender
     }
+
 }
 
 

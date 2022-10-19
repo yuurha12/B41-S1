@@ -48,7 +48,7 @@ console.log(dataPribadi.alamat);
 
 // mengisi data
 
-let data = []
+/*let data = []
 
 function addData() {
     let person = {
@@ -64,4 +64,4 @@ function looping() {
     for(let i = 0; <=10; i++)
         console.log(i);
     
-}
+}*/

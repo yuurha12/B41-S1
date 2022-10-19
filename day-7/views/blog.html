@@ -2,20 +2,20 @@
 <html>
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-    <link rel="stylesheet" href="./nav.css">
-    <link rel="stylesheet" href="./blog.css">
+    <link rel="stylesheet" href="./public/css/nav.css">
+    <link rel="stylesheet" href="./public/css/blog.css">
 </head>
 <body>
     <nav class="nav">
         <div class="nav-left">
             <ul>
-                <li><a href="index.html"><img src="./assets/images/dw2.png"></a></li>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="./blog.html">My Project</a></li>
+                <li><a href="/"><img src="./public/images/dw2.png"></a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/blog">My Project</a></li>
             </ul>
         </div>
         <div class="nav-right">
-            <a href="./contact.html">Contact Me</a>
+            <a href="/contact">Contact Me</a>
         </div>
     </nav>
     <div class="blog">
@@ -48,15 +48,15 @@
                     </div>
                     <div class="input-checkbox" id="input-checkbox">
                         <div>
-                            <input type="checkbox" id="js1" name="js1" value="Node Js" onchange="some_var=this.checked;">
+                            <input type="checkbox" id="js" name="js" value="Node Js" onchange="some_var=this.checked;">
                             <label for="js1"> Node Js</label>
-                            <input type="checkbox" id="js2" name="js2" value="React Js" onchange="some_var=this.checked;">
+                            <input type="checkbox" id="js" name="js" value="React Js" onchange="some_var=this.checked;">
                             <label for="js2"> React Js</label>
                         </div>
                         <div>
-                            <input type="checkbox" id="js3" name="js3" value="Next Js" onchange="some_var=this.checked;">
+                            <input type="checkbox" id="js" name="js" value="Next Js" onchange="some_var=this.checked;">
                             <label for="js3"> Next Js</label>
-                            <input type="checkbox" style="position: relative; left: 6px ;" id="js4" name="js4" value="TypeScript" onchange="some_var=this.checked;">
+                            <input type="checkbox" style="position: relative; left: 6px ;" id="js" name="js" value="TypeScript" onchange="some_var=this.checked;">
                             <label for="js4" style="position: relative ; left:5px;"> TypeScript</label>
                         </div>     
                     </div>
@@ -76,77 +76,82 @@
         </div>
         <hr/>
         <div id="contents" class="blog-list">
-            <div class="blog-list-item">
-                <div class="blog-image">
-                    <img src="./assets/images/cd.jpg">
-                </div>
-                <div class="blog-content">
-                    <div class="btn-group">
-                        <button class="btn-edit">Edit</button>
-                        <button class="btn-post">Delete</button>
+      
+                <div  class="blog-list-item">
+                    <div class="blog-image">
+                        <img src="./public/images/cd.jpg">
                     </div>
-                    <h1>
-                        <a href="blog-detail.html" target="_blank">
-                            Pasar Coding di Indonesia Dinilai Masih Menjanjikan
-                        </a>
-                    </h1>
-                    <div class="detail-blog-content" style="color: grey;">
-                        <script>
-                        function indays(d1, d2) {
-        var t2 = d2.getTime();
-        var t1 = d1.getTime();
- 
-        return Math.floor((t2-t1)/(24*3600*1000));
+                    <div class="blog-content">
+                        <div class="btn-group">
+                            <a href="yow">
+    
+                                <button class="btn-edit">Edit</button>
+                            </a>
+                            <button class="btn-post">Delete</button>
+                        </div>
+                        <h1>
+                            <a href="blog-detail/1" target="_blank">
+                                Pasar Coding di Indonesia Dinilai Masih Menjanjikan
+                            </a>
+                        </h1>
+                        <div class="detail-blog-content" style="color: grey;">
+                            <script>
+                            function indays(d1, d2) {
+            var t2 = d2.getTime();
+            var t1 = d1.getTime();
+     
+            return Math.floor((t2-t1)/(24*3600*1000));
+        }
+    function inweeks(d1, d2) {
+            var t2 = d2.getTime();
+            var t1 = d1.getTime();
+     
+            return parseInt((t2-t1)/(24*3600*1000*7));
+        }
+      
+     function inmonth(d1, d2) {
+            var d1Y = d1.getFullYear();
+            var d2Y = d2.getFullYear();
+            var d1M = d1.getMonth();
+            var d2M = d2.getMonth();
+     
+            return (d2M+12*d2Y)-(d1M+12*d1Y);
+        }
+     function inyears(d1, d2) {
+            return d2.getFullYear()-d1.getFullYear();
+        }
+    
+    var dString = "Sep, 15, 2022";
+     
+    var d1 = new Date(dString);
+    var d2 = new Date();
+    
+    let hari = indays(d1, d2);
+    
+    if(hari > 365){
+    document.write("DURASI:"+inyears(d1,d2) + " tahun");
+    }else if(hari <= 31 && hari >= 7){
+      document.write("DURASI:"+inweeks(d1,d2) + " minggu");
+    }else if(hari > 31 && hari < 365){
+      document.write("DURASI:"+inmonth(d1,d2) + " bulan");
+    }else{
+      document.write("DURASI:"+hari +" hari");
     }
-function inweeks(d1, d2) {
-        var t2 = d2.getTime();
-        var t1 = d1.getTime();
- 
-        return parseInt((t2-t1)/(24*3600*1000*7));
-    }
-  
- function inmonth(d1, d2) {
-        var d1Y = d1.getFullYear();
-        var d2Y = d2.getFullYear();
-        var d1M = d1.getMonth();
-        var d2M = d2.getMonth();
- 
-        return (d2M+12*d2Y)-(d1M+12*d1Y);
-    }
- function inyears(d1, d2) {
-        return d2.getFullYear()-d1.getFullYear();
-    }
-
-var dString = "Sep, 15, 2022";
- 
-var d1 = new Date(dString);
-var d2 = new Date();
-
-let hari = indays(d1, d2);
-
-if(hari > 365){
-document.write("DURASI:"+inyears(d1,d2) + " tahun");
-}else if(hari <= 31 && hari >= 7){
-  document.write("DURASI:"+inweeks(d1,d2) + " minggu");
-}else if(hari> 31 && hari < 365){
-  document.write("DURASI:"+inmonth(d1,d2) + " bulan");
-}else{
-  document.write("DURASI:"+hari +" hari");
-}
-                        </script>
+                            </script>
+                        </div>
+                        <p>
+                            Ketimpangan sumber daya manusia (SDM) di sektor digital masih
+                            menjadi isu yang belum terpecahkan. Berdasarkan penelitian
+                            ManpowerGroup, ketimpangan SDM global, termasuk Indonesia,
+                            meningkat dua kali lipat dalam satu dekade terakhir. Lorem ipsum,
+                            dolor sit amet consectetur adipisicing elit. Quam, molestiae
+                            numquam! Deleniti maiores expedita eaque deserunt quaerat! Dicta,
+                            eligendi debitis?
+                        </p>
                     </div>
-                    <p>
-                        Ketimpangan sumber daya manusia (SDM) di sektor digital masih
-                        menjadi isu yang belum terpecahkan. Berdasarkan penelitian
-                        ManpowerGroup, ketimpangan SDM global, termasuk Indonesia,
-                        meningkat dua kali lipat dalam satu dekade terakhir. Lorem ipsum,
-                        dolor sit amet consectetur adipisicing elit. Quam, molestiae
-                        numquam! Deleniti maiores expedita eaque deserunt quaerat! Dicta,
-                        eligendi debitis?
-                    </p>
                 </div>
-            </div>
+            
         </div>
 </body>
-<script src="./blog.js"></script>
+<script src="./public/js/blog.js"></script>
 </html>

@@ -13,10 +13,11 @@ function addBlog(event) {
     // buat url gambar nantinya tampil
     image = URL.createObjectURL(image)
     console.log(image)
+    let distance = getDistanceTime(end,start);
 
     let blog = {
-        tittle,
-        duration : start + end,
+        tittle:tittle,
+        duration :distance, 
         content,
         tech,
         image,
@@ -48,7 +49,7 @@ function renderBlog() {
                 </div>
                 <div>
                 <h2 style="color:grey;">
-                Durasi: ${getDistanceTime(dataBlog[index].timePost)}
+                Durasi: ${dataBlog[index].duration}
                 </div>
                 </div>
                 <h1>
@@ -105,9 +106,9 @@ function getFullTime(time) {
     return `${date} ${monthName[monthIndex]} ${year} ${hours}:${minutes} WIB`
 }
 
-function getDistanceTime(time) {
-    let timeNow = new Date()
-    let timePost = time
+function getDistanceTime(start,end) {
+    let timeNow = new Date(start)
+    let timePost = new Date(end)
 
     let distance = timeNow - timePost //milisecond
     console.log(distance)
