@@ -1,0 +1,59 @@
+body {
+    background-color:#e3e ;
+}
+
+.bg {
+    background-color: #e3e7eb;
+}
+
+html {
+    background-color: #e3e7eb;
+}
+
+body nav {
+    padding: 15px;
+}
+
+.card {
+    margin: 50px;
+}
+
+.col {
+    margin-top: 80px;
+}
+
+#ctc a button {
+    border-radius: 10px;
+    width: 100px;
+    height: 40px;
+}
+
+.nav-item a {
+    font-size: 20px;
+    color: black;
+}
+
+.nav-rgt a button{
+    font-size: 20px;
+    border-radius: 10px;
+    width: 175px;
+    height: 45px;
+}
+
+.scm {
+    font-size: 30px;
+    margin-top: 40px;
+}
+
+.scm a {
+    color: black;
+}
+
+#txt {
+    margin-top: 50px;
+}
+
+p{
+    margin-top:0px;
+    margin-bottom:0px
+}

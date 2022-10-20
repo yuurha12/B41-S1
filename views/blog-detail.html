@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+        <link rel="stylesheet" href="/public/css/style.css">
+        <link rel="stylesheet" href="/public/css/styling.css">
+    </head>
+    <body>
+        <div class="bg">
+            <nav class="d-flex navbar navbar-light bg-light">
+                <nav class="navbar">
+                    <a class="navbar-brand" href="/">
+                        <img src="/public/images/dw2.png" width="60" height="40" alt="">
+                    </a>
+                    <ul class="nav justify-content-start">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/">HOME</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/form-blog">Add Project</a>
+                        </li>
+                    </ul>
+                </nav>
+                <nav class="nav-rgt">
+                    <ul class="nav justify-content-center">
+                        <li class="nav-item">                           
+                            <a href="/contact">
+                                <button type="button" class="btn btn-dark">Contact Me</button>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </nav>
+       <!-- Blog -->
+       <div class="detail-blog">
+        <div class="detail-blog-card">
+            <h1 class="detail-blog-title">
+                {{.Blog.Title}}
+            </h1>
+            <div class="detail-blog-author">
+                {{.Blog.Post_date}} | {{.Blog.Author}}
+            </div>
+            <img src="/public/images/cd.jpg" alt="photo" />
+            <p class="detail-blog-content">
+                {{.Blog.Content}}
+            </p>
+        </div>
+    </div>
+    </body>
+</html>
