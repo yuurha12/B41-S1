@@ -7,13 +7,16 @@ function addBlog(event) {
     let start = document.getElementById("start").value
     let end = document.getElementById("end").value
     let content = document.getElementById("input-content").value
-    let tech = document.getElementById("input-checkbox").checked = true;
+    let tech = document.getElementById("js").value
     let image = document.getElementById("input-blog-image").files[0]
 
     // buat url gambar nantinya tampil
     image = URL.createObjectURL(image)
     console.log(image)
+    
     let distance = getDistanceTime(end,start);
+
+    console.log();
 
     let blog = {
         tittle:tittle,
@@ -116,13 +119,26 @@ function getDistanceTime(start,end) {
     let milisecond = 1000 // milisecond
     let secondInHours = 3600 // 1 jam = 3600 detik
     let hoursInDay = 24 // 1 hari = 24 jam
+    let dayInWeek = 7
+    let dayInMonth = 30
+    let dayInYear = 365
 
+    let distanceYear = Math.floor(distance / (milisecond * secondInHours * hoursInDay * dayInMonth * dayInYear))
+    let distanceMonth = Math.floor(distance /(milisecond * secondInHours * hoursInDay * dayInMonth) )
+    let distanceWeek = Math.floor(distance /(milisecond * secondInHours * hoursInDay * dayInWeek))
     let distanceDay = Math.floor(distance / (milisecond * secondInHours * hoursInDay))
     let distanceHours = Math.floor(distance / (milisecond * 60 * 60))
     let distanceMinutes = Math.floor(distance / (milisecond * 60))
     let distanceSecond = Math.floor(distance / milisecond)
 
-    if (distanceDay > 0) {
+    if (distanceWeek >=28 ) {
+        return `${distanceWeek} week(s) ago`
+    } else if (distanceMonth > 0) {
+        return `${distanceMonth} Month(s) ago`
+    }   else if (distanceYear > 0 ) {
+        return `${distanceYear} Year(s) ago`
+    }
+       else if (distanceDay > 0) {
         return `${distanceDay} day(s) ago`
     } else if (distanceHours > 0) {
         return `${distanceHours} hour(s) ago`
