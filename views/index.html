@@ -89,15 +89,11 @@
                                 <img src="/public/images/cd.jpg">
                             </div>
                             <div class="blog-content">
-                                <div class="btn-group">
-                                    <a href="#" class="btn-edit">Edit</a>
-                                    <a href="/delete-blog/{{$index}}" class="btn-post">Delete</a>
-                                </div>
-                                <h1>
+                                <h5>
                                     <a href="/blog-detail/{{$index}}" target="_blank">
                                         {{$data.Title}}
                                     </a>
-                                </h1>
+                                </h5>
                                 <div class="detail-blog-content">
                                     {{$data.Post_date}} | {{$data.Author}} | Index {{$index}}
                                 </div>
@@ -107,6 +103,16 @@
                                 <p>
                                     {{$data.Content}}
                                 </p>
+                                <div id="app">
+                                    <i style="padding:15px ; font-size: 30px;"  class="fa-brands fa-google-play"></i>
+                                    <i style="padding:15px ; font-size: 30px;" class="fa-brands fa-android"></i>
+                                    <i style="padding:15px ;font-size: 30px;" class="fa-brands fa-java"></i>
+
+                                </div>
+                                <div class="btn-group">
+                                    <a href="#" class="btn-edit">Edit</a>
+                                    <a href="/delete-blog/{{$index}}" class="btn-post">Delete</a>
+                                </div>
                             </div>
                         </div>
                         {{end}}

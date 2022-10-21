@@ -110,14 +110,14 @@ border-radius: 8px;
 }
 
 .blog .blog-list .btn-group {
-    text-align: right;
     margin-bottom: 20px;
     border-radius: 10px;
 }
 
 .blog .blog-list .btn-group .btn-edit {
     padding: 5px 10px;
-    width: 120px;
+    height: 35px;
+    width: 250px;
     border: 0;
     border-radius: 15px;
     background: #ec4d37;
@@ -126,6 +126,8 @@ border-radius: 8px;
 
 .blog .blog-list .btn-group .btn-post {
     padding: 5px 10px;
+    height: 35px;
+    width: 200px;
     border: 0;
     border-radius: 15px;
     background: #ec4d37;
@@ -197,12 +199,13 @@ border-radius: 8px;
 }
 
 .blog .blog-list .blog-list-item {
-    width: 80%;
+    width: 100%;
     padding: 15px;
     margin-bottom: 20px;
-    border: 2px solid #dbdbdb;
+    border: 2px solid black;
     border-radius: 8px;
-    display: flex;;
+    display: flex;
+   align-items: center;
 }
 
 
@@ -227,7 +230,7 @@ border-radius: 8px;
     cursor: pointer;
 }
 
-.blog .blog-list h1 a {
+.blog-content h5 a {
     text-decoration: none;
     color: #000000;
 }
@@ -236,6 +239,7 @@ border-radius: 8px;
     font-weight: 300;
     font-size: 12px;
     line-height: 20px;
+    justify-content: center;
 }
 
 .blog .blog-list .blog-list-item p {
@@ -283,4 +287,8 @@ border-radius: 8px;
     font-size: 24px;
     line-height: 140%;
     text-align: justify;
+}
+
+.blog i {
+    justify-content: center;
 }
