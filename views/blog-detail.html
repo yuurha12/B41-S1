@@ -35,10 +35,11 @@
        <div class="detail-blog">
         <div class="detail-blog-card">
             <h1 class="detail-blog-title">
-                {{.Blog.Name}}
+                {{$.Blog.Name}}
             </h1>
-            <p>{{$.Blog.Start_date}} | {{$.Blog.End_date}} | {{$.Blog.Technologies}}</p>
+            <p>{{$.Blog.Start_date}} - {{$.Blog.End_date}} | {{$.Blog.Technologies}}</p>
             <div class="detail-blog-author">
+                <h5 style="color: grey;">{{.Blog.Duration}}</h5>
             </div>
             <img src="/public/images/cd.jpg" alt="photo" />
             <p class="detail-blog-content">
