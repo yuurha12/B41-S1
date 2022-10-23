@@ -122,14 +122,14 @@ border-radius: 8px;
     width: 120px;
     border: 0;
     border-radius: 15px;
-    background: #dbdbdb;
+    background: red;
     }
 
 .blog .blog-list .btn-group .btn-post {
     padding: 5px 10px;
     border: 0;
     border-radius: 15px;
-    background: #ec4d37;
+    background: red;
     color: #fff;
 }
 

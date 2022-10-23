@@ -12,7 +12,7 @@
         <nav class="d-flex navbar navbar-light bg-light">
             <nav class="navbar">
                 <a class="navbar-brand" href="/">
-                    <img src="./public/images/dw2.png" width="60" height="40" alt="">
+                    <img src="/public/images/dw2.png" width="60" height="40" alt="">
                 </a>
                 <ul class="nav justify-content-start">
                     <li class="nav-item">
@@ -41,7 +41,7 @@
                             <h1>ADD MY PROJECT</h1>
                             <div class="pj">
                                 <label for="input-title">Project Name</label>
-                                <input name="inputTitle" id="inputTitle">
+                                <input name="inputTitle" placeholder="{{$.data.Name}}" id="inputTitle">
                             </div>
                                 <div class="date">
                                     <div>
@@ -50,12 +50,12 @@
                                     </div>
                                     <div>
                                         <label for="input-end-date">End Date</label>
-                                        <input type="date" name="inputEnd" id="end"  min="01-01-0001" max="12-12-9999">
+                                        <input type="date" name="inputEnd" id="end" min="01-01-0001" max="12-12-9999">
                                     </div>
                                 </div>
                                 <div class="dc">
                                     <label for="input-content">Description</label>
-                                    <textarea name="inputContent" id="inputContent"></textarea>
+                                    <textarea name="inputContent" id="inputContent">{{$.Blog.Description}}</textarea>
                                 </div>
                                 <div>
                                     <h2>Technologies</h2>
@@ -80,7 +80,7 @@
                             <input name="inputImage" id="input-blog-image" type="file" style="border: 2px solid; background-color: rgb(150, 138, 138); width: 500px;cursor: pointer; " />
                         </div>
                         <div>
-                            <button class="btn-pst" id="btn">submit</button>
+                            <button class="btn-pst" id="btn">Update</button>
                         </div>                        
                     </form>   
             </div>

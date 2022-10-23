@@ -91,18 +91,19 @@
                             <div class="blog-content">
                                 <h5>
                                     <a href="/blog-detail/{{$index}}" target="_blank">
-                                        {{$data.Title}}
+                                        {{$data.Name}}
                                     </a>
                                 </h5>
                                 <div class="detail-blog-content">
-                                    {{$data.Post_date}} | {{$data.Author}} | Index {{$index}}
+                                    {{$data.Technologies}} | Index {{$index}}
                                 </div>
                                 <div>
-                                    <h6 style="color: grey ;">{{$data.Duration}}</h6>
+
+                                    <h5 style="color: grey ;">{{$data.Duration}}</h5>
                                 </div>
-                                <p>
-                                    {{$data.Content}}
-                                </p>
+                                <div>
+                                    <p>{{$data.Description}}</p>
+                                </div>
                                 <div id="app">
                                     <i style="padding:15px ; font-size: 30px;"  class="fa-brands fa-google-play"></i>
                                     <i style="padding:15px ; font-size: 30px;" class="fa-brands fa-android"></i>
@@ -110,7 +111,7 @@
 
                                 </div>
                                 <div class="btn-group">
-                                    <a href="#" class="btn-edit">Edit</a>
+                                    <a href="/edit-form-blog/{{$index}}" class="btn-edit">Edit</a>
                                     <a href="/delete-blog/{{$index}}" class="btn-post">Delete</a>
                                 </div>
                             </div>
