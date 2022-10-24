@@ -28,22 +28,22 @@ type Blog struct {
 
 var Blogs = []Blog{
 	{
-		Id:           0,
 		Name:         "Dumbways mobile app-2021",
 		Start_date:   "2022-10-17",
 		End_date:     "2022-10-24",
 		Duration:     "1 Weeks",
-		Description:  "Test",
+		Description:  "test project 1",
 		Technologies: "Node Js",
+		Image:        "/public/images/dw2.jpg",
 	},
 	{
-		Id:           1,
 		Name:         "Dumbways mobile app-2021",
 		Start_date:   "2022-10-17",
 		End_date:     "2022-10-24",
 		Duration:     "1 Weeks",
-		Description:  "Test",
+		Description:  "Test project 2",
 		Technologies: "Node Js",
+		Image:        "/public/images/dw2.jpg",
 	},
 }
 
@@ -63,7 +63,7 @@ func main() {
 	route.HandleFunc("/add-blog", addBlog).Methods("POST")
 	route.HandleFunc("/delete-blog/{index}", deleteBlog).Methods("GET")
 	route.HandleFunc("/edit-form-blog/{index}", editForm).Methods("GET")
-	route.HandleFunc("/edit-blog/{index}", editBlog).Methods("GET")
+	route.HandleFunc("/edit-blog/{index}", editBlog).Methods("POST")
 
 	fmt.Println("Server running on port 5000")
 	http.ListenAndServe("localhost:5000", route)
@@ -132,35 +132,35 @@ func blogDetail(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Message : " + err.Error()))
-		return
-	}
+	} else {
 
-	var BlogDetail = Blog{}
+		index, _ := strconv.Atoi(mux.Vars(r)["index"])
 
-	index, _ := strconv.Atoi(mux.Vars(r)["index"])
+		var BlogDetail = Blog{}
 
-	for i, data := range Blogs {
-		if index == i {
-			BlogDetail = Blog{
-				Name:         data.Name,
-				Description:  data.Description,
-				Start_date:   data.Start_date,
-				End_date:     data.End_date,
-				Duration:     data.Duration,
-				Technologies: data.Technologies,
-				Image:        data.Image,
+		for i, data := range Blogs {
+			if index == i {
+				BlogDetail = Blog{
+					Name:         data.Name,
+					Description:  data.Description,
+					Start_date:   data.Start_date,
+					End_date:     data.End_date,
+					Duration:     data.Duration,
+					Technologies: data.Technologies,
+					Image:        data.Image,
+				}
 			}
 		}
+
+		data := map[string]interface{}{
+			"Blog": BlogDetail,
+		}
+
+		// fmt.Println(data)
+
+		w.WriteHeader(http.StatusOK)
+		tmpl.Execute(w, data)
 	}
-
-	data := map[string]interface{}{
-		"Blog": BlogDetail,
-	}
-
-	// fmt.Println(data)
-
-	w.WriteHeader(http.StatusOK)
-	tmpl.Execute(w, data)
 }
 
 func formAddBlog(w http.ResponseWriter, r *http.Request) {
@@ -181,69 +181,69 @@ func addBlog(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
 		log.Fatal(err)
+	} else {
+		var name = r.PostForm.Get("inputTitle")
+		var start = r.PostForm.Get("inputStart")
+		var end = r.PostForm.Get("inputEnd")
+		var duration string
+		var description = r.PostForm.Get("inputContent")
+		var technologies = r.PostForm.Get("js")
+		var image = r.PostForm.Get("inputImage")
+
+		fmt.Println("Name : " + r.PostForm.Get("inputTitle")) // value berdasarkan dari tag input name
+		fmt.Println("Start : " + r.PostForm.Get("inputStart"))
+		fmt.Println("End : " + r.PostForm.Get("inputEnd"))
+		fmt.Println("Description : " + r.PostForm.Get("inputContent"))
+		fmt.Println("Technologies : " + r.PostForm.Get("js"))
+		fmt.Println("Image : " + r.PostForm.Get("inputImage"))
+
+		layoutDate := "2006-01-02"
+		startParse, _ := time.Parse(layoutDate, start)
+		endParse, _ := time.Parse(layoutDate, end)
+
+		fmt.Println(startParse)
+
+		hour := 1
+		day := hour * 24
+		week := hour * 24 * 7
+		month := hour * 24 * 30
+		year := hour * 24 * 365
+
+		differHour := endParse.Sub(startParse).Hours()
+		var differHours int = int(differHour)
+		// fmt.Println(differHours)
+		days := differHours / day
+		weeks := differHours / week
+		months := differHours / month
+		years := differHours / year
+
+		if differHours < week {
+			duration = strconv.Itoa(int(days)) + " Days"
+		} else if differHours < month {
+			duration = strconv.Itoa(int(weeks)) + " Weeks"
+		} else if differHours < year {
+			duration = strconv.Itoa(int(months)) + " Months"
+		} else if differHours > year {
+			duration = strconv.Itoa(int(years)) + " Years"
+		}
+
+		newBlog := Blog{
+			Name:         name,
+			Start_date:   start,
+			End_date:     end,
+			Duration:     duration,
+			Description:  description,
+			Technologies: technologies,
+			Image:        image,
+		}
+
+		//Blogs.push(newBlog)
+		Blogs = append(Blogs, newBlog)
+
+		fmt.Println(newBlog)
+
+		http.Redirect(w, r, "/", http.StatusMovedPermanently)
 	}
-
-	var name = r.PostForm.Get("inputTitle")
-	var start = r.PostForm.Get("inputStart")
-	var end = r.PostForm.Get("inputEnd")
-	var duration string
-	var description = r.PostForm.Get("inputContent")
-	var technologies = r.PostForm.Get("js")
-	var image = r.PostForm.Get("inputImage")
-
-	fmt.Println("Name : " + r.PostForm.Get("inputTitle")) // value berdasarkan dari tag input name
-	fmt.Println("Start : " + r.PostForm.Get("inputStart"))
-	fmt.Println("End : " + r.PostForm.Get("inputEnd"))
-	fmt.Println("Description : " + r.PostForm.Get("inputContent"))
-	fmt.Println("Technologies : " + r.PostForm.Get("js"))
-	fmt.Println("Image : " + r.PostForm.Get("inputImage"))
-
-	layoutDate := "2006-01-02"
-	startParse, _ := time.Parse(layoutDate, start)
-	endParse, _ := time.Parse(layoutDate, end)
-
-	fmt.Println(startParse)
-
-	hour := 1
-	day := hour * 24
-	week := hour * 24 * 7
-	month := hour * 24 * 30
-	year := hour * 24 * 365
-
-	differHour := endParse.Sub(startParse).Hours()
-	var differHours int = int(differHour)
-	// fmt.Println(differHours)
-	days := differHours / day
-	weeks := differHours / week
-	months := differHours / month
-	years := differHours / year
-
-	if differHours < week {
-		duration = strconv.Itoa(int(days)) + " Days"
-	} else if differHours < month {
-		duration = strconv.Itoa(int(weeks)) + " Weeks"
-	} else if differHours < year {
-		duration = strconv.Itoa(int(months)) + " Months"
-	} else if differHours > year {
-		duration = strconv.Itoa(int(years)) + " Years"
-	}
-
-	newBlog := Blog{
-		Name:         name,
-		Start_date:   start,
-		End_date:     end,
-		Duration:     duration,
-		Description:  description,
-		Technologies: technologies,
-		Image:        image,
-	}
-
-	//Blogs.push(newBlog)
-	Blogs = append(Blogs, newBlog)
-
-	fmt.Println(Blogs)
-
-	http.Redirect(w, r, "/", http.StatusMovedPermanently)
 }
 
 func deleteBlog(w http.ResponseWriter, r *http.Request) {
@@ -265,25 +265,28 @@ func editForm(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Message : " + err.Error()))
 	} else {
-		index, _ := strconv.Atoi(mux.Vars(r)["index"])
+		id, _ := strconv.Atoi(mux.Vars(r)["index"])
 
-		BlogDetail := Blog{}
+		editSelectedData := Blog{}
 
-		for id, data := range Blogs {
+		for index, editSelected := range Blogs {
 			if id == index {
-				BlogDetail = Blog{
-					Id:          id,
-					Name:        data.Name,
-					Start_date:  data.Start_date,
-					End_date:    data.End_date,
-					Description: data.Description,
+				editSelectedData = Blog{
+					Id:           id,
+					Name:         editSelected.Name,
+					Start_date:   editSelected.Start_date,
+					End_date:     editSelected.End_date,
+					Duration:     editSelected.Duration,
+					Description:  editSelected.Description,
+					Technologies: editSelected.Technologies,
+					Image:        editSelected.Image,
 				}
-				fmt.Println(BlogDetail.Description)
+				fmt.Println(editSelectedData.Description, editSelectedData.Name, editSelectedData.Duration, editSelectedData.Technologies)
 			}
 		}
 
 		response := map[string]interface{}{
-			"BlogDetail": BlogDetail,
+			"editSelected": editSelectedData,
 		}
 
 		w.WriteHeader(http.StatusOK)
@@ -344,7 +347,7 @@ func editBlog(w http.ResponseWriter, r *http.Request) {
 			duration = strconv.Itoa(int(years)) + " Years"
 		}
 
-		editBlog := Blog{
+		editSelected := Blog{
 			Name:         name,
 			Start_date:   start,
 			End_date:     end,
@@ -354,7 +357,7 @@ func editBlog(w http.ResponseWriter, r *http.Request) {
 			Image:        image,
 		}
 
-		Blogs[index] = editBlog
+		Blogs[index] = editSelected
 
 		fmt.Println(Blogs)
 
