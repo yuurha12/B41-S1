@@ -33,40 +33,40 @@
             </nav>
         </nav>
         <div class="blog">
-            <div id="contents" class="blog-list">
-                <!-- dynamic content here -->
-                {{range $index, $data := .Blogs}}
-                <div class="blog-list-item">
-                    <div class="blog-image">
-                        <img src="/public/images/cd.jpg">
-                    </div>
-                    <div class="blog-content">
-                        <h5>
-                            <a href="/blog-detail/{{$index}}" target="_blank">
-                                {{$data.Name}}
-                            </a>
-                        </h5>
-                        <div class="detail-blog-content">
-                            {{$data.Start_date}} | {{$data.End_date}} | {{$data.Technologies}} | Index {{$index}}
-                        </div>
-                        <div>
-                            <p>{{$data.Description}}</p>
-                        </div>
-                        <div id="app">
-                            <i style="padding:15px ; font-size: 30px;"  class="fa-brands fa-google-play"></i>
-                            <i style="padding:15px ; font-size: 30px;" class="fa-brands fa-android"></i>
-                            <i style="padding:15px ;font-size: 30px;" class="fa-brands fa-java"></i>
+                    <div id="contents" class="blog-list">
+                        <!-- dynamic content here -->
+                        {{range $index, $data := .Blogs}}
+                        <div class="blog-list-item">
+                            <div class="blog-image">
+                                <img src="/public/images/cd.jpg">
+                            </div>
+                            <div class="blog-content">
+                                <h5>
+                                    <a href="/blog-detail/{{$data.Id}}" target="_blank">
+                                        {{$data.Id}}
+                                    </a>
+                                </h5>
+                                <div class="detail-blog-content">
+                                    {{$data.Start_date}} | {{$data.End_date}} | {{$data.Technologies}} | Index {{$index}}
+                                </div>
+                                <div>
+                                    <p>{{$data.Description}}</p>
+                                </div>
+                                <div id="app">
+                                    <i style="padding:15px ; font-size: 30px;"  class="fa-brands fa-google-play"></i>
+                                    <i style="padding:15px ; font-size: 30px;" class="fa-brands fa-android"></i>
+                                    <i style="padding:15px ;font-size: 30px;" class="fa-brands fa-java"></i>
 
+                                </div>
+                                <div class="btn-group">
+                                    <a href="/edit-form-blog/{{$index}}" class="btn-edit">Edit</a>
+                                    <a href="/delete-blog/{{$index}}" class="btn-post">Delete</a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="btn-group">
-                            <a href="#" class="btn-edit">Edit</a>
-                            <a href="/delete-blog/{{$index}}" class="btn-post">Delete</a>
-                        </div>
+                        {{end}}
                     </div>
                 </div>
-                {{end}}
-            </div>
-        </div>
     </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

@@ -89,26 +89,34 @@
                                 <img src="/public/images/cd.jpg">
                             </div>
                             <div class="blog-content">
-                                <h5>
-                                    <a href="/blog-detail/{{$index}}" target="_blank">
+                                <h2>
+                                    <a style="color: black;" href="/blog-detail/{{$data.Id}}" target="_blank">
                                         {{$data.Name}}
                                     </a>
-                                </h5>
+                                </h2>
+                                <div>
+                                    <h6>
+                                        Duration
+                                    </h6>
+                                </div>
                                 <div class="detail-blog-content">
-                                    {{$data.Start_date}} | {{$data.End_date}} | {{$data.Technologies}} | Index {{$index}}
+                                    {{$data.Format_start}} - {{$data.Format_end}} 
+                                </div>
+                                <div>
+                                    {{$data.Technologies}} | id {{$data.Id}}
                                 </div>
                                 <div>
                                     <p>{{$data.Description}}</p>
                                 </div>
                                 <div id="app">
-                                    <i style="padding:15px ; font-size: 30px;"  class="fa-brands fa-google-play"></i>
-                                    <i style="padding:15px ; font-size: 30px;" class="fa-brands fa-android"></i>
-                                    <i style="padding:15px ;font-size: 30px;" class="fa-brands fa-java"></i>
+                                    <i style="padding:10px ; font-size: 30px;"  class="fa-brands fa-google-play"></i>
+                                    <i style="padding:10px ; font-size: 30px;" class="fa-brands fa-android"></i>
+                                    <i style="padding:10px ;font-size: 30px;" class="fa-brands fa-java"></i>
 
                                 </div>
                                 <div class="btn-group">
-                                    <a href="#" class="btn-edit">Edit</a>
-                                    <a href="/delete-blog/{{$index}}" class="btn-post">Delete</a>
+                                    <a href="/edit-form-blog/{{$data.Id}}" class="btn-edit">Edit</a>
+                                    <a href="/delete-blog/{{$data.Id}}" class="btn-post">Delete</a>
                                 </div>
                             </div>
                         </div>

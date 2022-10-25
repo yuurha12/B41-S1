@@ -15,6 +15,12 @@ body {
     justify-content: center;
 }
 
+#app {
+    position: relative;
+    right: 20px;
+    padding: 10px;
+}
+
 .blog-form {
     padding: 50px 0;
     display: flex;
@@ -87,19 +93,20 @@ border-radius: 8px;
 .blog .blog-list {
     margin-bottom: 80px;
     display: flex;
-    align-items: left;
+    justify-content: center;
     flex-direction: row;
 }
 
     
 .blog .blog-list .blog-list-item {
-    width: 80%;
+    background-color: white;
     padding: 15px;
     margin-bottom: 20px;
     border: 2px solid #dbdbdb;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
 }
 
 .blog-image img{
@@ -111,13 +118,16 @@ border-radius: 8px;
 
 .blog .blog-list .btn-group {
     margin-bottom: 20px;
+    margin-top: 20px;
     border-radius: 10px;
+    align-items: center;
+    text-align: center;
 }
 
 .blog .blog-list .btn-group .btn-edit {
     padding: 5px 10px;
     height: 35px;
-    width: 250px;
+    width: 100px;
     border: 0;
     border-radius: 15px;
     background: #ec4d37;
@@ -127,11 +137,12 @@ border-radius: 8px;
 .blog .blog-list .btn-group .btn-post {
     padding: 5px 10px;
     height: 35px;
-    width: 200px;
+    width: 100px;
     border: 0;
     border-radius: 15px;
     background: #ec4d37;
     color: #fff;
+    cursor: pointer;
 }
 
 
@@ -198,37 +209,12 @@ border-radius: 8px;
     margin-left: auto;
 }
 
-.blog .blog-list .blog-list-item {
-    width: 100%;
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 2px solid black;
-    border-radius: 8px;
-    display: flex;
-   align-items: center;
-}
-
 
 .blog .blog-list .blog-list-item .blog-content {
-    padding-left: 20px;
-    flex: 2;
-}
-
-.blog-list .btn-group {
-    margin-top: 20px;
-   width: 100px;
-   display: flex;
+    flex: 1;
 }
 
 
-.blog-list .btn-group .btn-post {
-    padding: 10px 10px;
-    border: 1 solid black;
-    border-radius: 8px;
-    background: red;
-    color: #fff;
-    cursor: pointer;
-}
 
 .blog-content h5 a {
     text-decoration: none;

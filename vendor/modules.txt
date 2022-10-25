@@ -7,7 +7,7 @@ github.com/jackc/pgpassfile
 # github.com/jackc/pgservicefile v0.0.0-20200714003250-2b9c44734f2b
 ## explicit; go 1.14
 github.com/jackc/pgservicefile
-# github.com/jackc/pgx/v5 v5.0.3
+# github.com/jackc/pgx/v5 v5.0.4
 ## explicit; go 1.18
 github.com/jackc/pgx/v5
 github.com/jackc/pgx/v5/internal/anynil
@@ -20,27 +20,10 @@ github.com/jackc/pgx/v5/pgconn
 github.com/jackc/pgx/v5/pgconn/internal/ctxwatch
 github.com/jackc/pgx/v5/pgproto3
 github.com/jackc/pgx/v5/pgtype
-# github.com/rickb777/date v1.20.0
-## explicit; go 1.17
-# github.com/rickb777/plural v1.4.1
-## explicit; go 1.17
-# go.starlark.net v0.0.0-20221020143700-22309ac47eac
-## explicit; go 1.13
-go.starlark.net/internal/compile
-go.starlark.net/internal/spell
-go.starlark.net/lib/time
-go.starlark.net/resolve
-go.starlark.net/starlark
-go.starlark.net/starlarkstruct
-go.starlark.net/syntax
 # golang.org/x/crypto v0.0.0-20220829220503-c86fa9a7ed90
 ## explicit; go 1.17
 golang.org/x/crypto/pbkdf2
-# golang.org/x/sys v0.0.0-20220715151400-c0bba94af5f8
-## explicit; go 1.17
-golang.org/x/sys/internal/unsafeheader
-golang.org/x/sys/unix
-# golang.org/x/text v0.3.7
+# golang.org/x/text v0.3.8
 ## explicit; go 1.17
 golang.org/x/text/cases
 golang.org/x/text/internal
