@@ -105,6 +105,35 @@ func home(w http.ResponseWriter, r *http.Request) {
 		each.Format_start = each.Start_date.Format("02-01-2006")
 		each.Format_end = each.End_date.Format("02-01-2006")
 
+		layoutDate := "2006-01-02"
+		startParse, _ := time.Parse(layoutDate, each.Start_date.Format("2006-01-02"))
+		endParse, _ := time.Parse(layoutDate, each.End_date.Format("2006-01-02"))
+		fmt.Println(startParse)
+
+		hour := 1
+		day := hour * 24
+		week := hour * 24 * 7
+		month := hour * 24 * 30
+		year := hour * 24 * 365
+
+		differHour := endParse.Sub(startParse).Hours()
+		var differHours int = int(differHour)
+		// fmt.Println(differHours)
+		days := differHours / day
+		weeks := differHours / week
+		months := differHours / month
+		years := differHours / year
+
+		if differHours < week {
+			each.Duration = strconv.Itoa(int(days)) + " Days"
+		} else if differHours < month {
+			each.Duration = strconv.Itoa(int(weeks)) + " Weeks"
+		} else if differHours < year {
+			each.Duration = strconv.Itoa(int(months)) + " Months"
+		} else if differHours > year {
+			each.Duration = strconv.Itoa(int(years)) + " Years"
+		}
+
 		result = append(result, each)
 	}
 
@@ -177,6 +206,35 @@ func blogDetail(w http.ResponseWriter, r *http.Request) {
 	BlogDetail.Format_start = BlogDetail.Start_date.Format("2 January 2006")
 	BlogDetail.Format_end = BlogDetail.End_date.Format("2 January 2006")
 
+	layoutDate := "2006-01-02"
+	startParse, _ := time.Parse(layoutDate, BlogDetail.Start_date.Format("2006-01-02"))
+	endParse, _ := time.Parse(layoutDate, BlogDetail.End_date.Format("2006-01-02"))
+	fmt.Println(startParse)
+
+	hour := 1
+	day := hour * 24
+	week := hour * 24 * 7
+	month := hour * 24 * 30
+	year := hour * 24 * 365
+
+	differHour := endParse.Sub(startParse).Hours()
+	var differHours int = int(differHour)
+	// fmt.Println(differHours)
+	days := differHours / day
+	weeks := differHours / week
+	months := differHours / month
+	years := differHours / year
+
+	if differHours < week {
+		BlogDetail.Duration = strconv.Itoa(int(days)) + " Days"
+	} else if differHours < month {
+		BlogDetail.Duration = strconv.Itoa(int(weeks)) + " Weeks"
+	} else if differHours < year {
+		BlogDetail.Duration = strconv.Itoa(int(months)) + " Months"
+	} else if differHours > year {
+		BlogDetail.Duration = strconv.Itoa(int(years)) + " Years"
+	}
+
 	data := map[string]interface{}{
 		"Blog": BlogDetail,
 	}
@@ -207,7 +265,7 @@ func addBlog(w http.ResponseWriter, r *http.Request) {
 	var name = r.PostForm.Get("inputTitle")
 	var start = r.PostForm.Get("inputStart")
 	var end = r.PostForm.Get("inputEnd")
-	//var duration string
+	//var each.Duration string
 	var description = r.PostForm.Get("inputContent")
 	var technologies = r.PostForm.Get("js")
 	var image = r.PostForm.Get("inputImage")
@@ -251,44 +309,29 @@ func editForm(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Message : " + err.Error()))
 		return
-	} else {
-		id, _ := strconv.Atoi(mux.Vars(r)["id"])
-
-		editSelectedData := Blog{}
-
-		err = connection.Conn.QueryRow(context.Background(), "SELECT id, name, start_date, end_date, description, technologies, image FROM tb_projects WHERE id=$1", id).Scan(
-			&editSelectedData.Id, &editSelectedData.Name, &editSelectedData.Start_date, &editSelectedData.End_date, &editSelectedData.Description, &editSelectedData.Technologies, &editSelectedData.Image)
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte("message : " + err.Error()))
-			return
-		}
-
-		for ID, editSelected := range Blogs {
-			if id == ID {
-				editSelectedData = Blog{
-					Id:           ID,
-					Name:         editSelected.Name,
-					Start_date:   editSelected.Start_date,
-					End_date:     editSelected.End_date,
-					Duration:     editSelected.Duration,
-					Description:  editSelected.Description,
-					Technologies: editSelected.Technologies,
-					Image:        editSelected.Image,
-				}
-			}
-		}
-		editSelectedData.Format_start = editSelectedData.Start_date.Format("2006-01-02")
-		editSelectedData.Format_end = editSelectedData.End_date.Format("2006-01-02")
-		fmt.Println(editSelectedData.Id, editSelectedData.Name, editSelectedData.Format_start, editSelectedData.Format_end, editSelectedData.Description, editSelectedData, editSelectedData.Technologies, editSelectedData.Image)
-
-		response := map[string]interface{}{
-			"editSelected": editSelectedData,
-		}
-
-		w.WriteHeader(http.StatusOK)
-		tmpl.Execute(w, response)
 	}
+	id, _ := strconv.Atoi(mux.Vars(r)["id"])
+
+	editSelectedData := Blog{}
+
+	err = connection.Conn.QueryRow(context.Background(), "SELECT id, name, start_date, end_date, description, technologies, image FROM tb_projects WHERE id=$1", id).Scan(
+		&editSelectedData.Id, &editSelectedData.Name, &editSelectedData.Start_date, &editSelectedData.End_date, &editSelectedData.Description, &editSelectedData.Technologies, &editSelectedData.Image)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("message : " + err.Error()))
+		return
+	}
+
+	editSelectedData.Format_start = editSelectedData.Start_date.Format("2006-01-02")
+	editSelectedData.Format_end = editSelectedData.End_date.Format("2006-01-02")
+	fmt.Println(editSelectedData.Id, editSelectedData.Name, editSelectedData.Format_start, editSelectedData.Format_end, editSelectedData.Description, editSelectedData, editSelectedData.Technologies, editSelectedData.Image)
+
+	response := map[string]interface{}{
+		"editSelected": editSelectedData,
+	}
+
+	w.WriteHeader(http.StatusOK)
+	tmpl.Execute(w, response)
 }
 
 func editBlog(w http.ResponseWriter, r *http.Request) {
@@ -298,22 +341,14 @@ func editBlog(w http.ResponseWriter, r *http.Request) {
 	} else {
 		id, _ := strconv.Atoi(mux.Vars(r)["id"])
 
-		editSelectedData := Blog{}
-
 		var name = r.PostForm.Get("inputTitle")
 		var start = r.PostForm.Get("inputStart")
 		var end = r.PostForm.Get("inputEnd")
-		//var duration string
+		//var each.Duration string
 		var description = r.PostForm.Get("inputContent")
 		var technologies = r.PostForm.Get("js")
 		var image = r.PostForm.Get("inputImage")
-
-		fmt.Println("Name : " + r.PostForm.Get("inputTitle")) // value berdasarkan dari tag input name
-		fmt.Println("Start : " + r.PostForm.Get("inputStart"))
-		fmt.Println("End : " + r.PostForm.Get("inputEnd"))
-		fmt.Println("Description : " + r.PostForm.Get("inputContent"))
-		fmt.Println("Technologies : " + r.PostForm.Get("js"))
-		fmt.Println("Image : " + r.PostForm.Get("inputImage"))
+		fmt.Println(technologies)
 
 		_, err = connection.Conn.Exec(context.Background(), "UPDATE tb_projects SET name=$2, start_date=$3, end_date=$4, description=$5, technologies=$6, image=$7 WHERE id=$1", id, name, start, end, description, technologies, image)
 		if err != nil {
@@ -321,13 +356,6 @@ func editBlog(w http.ResponseWriter, r *http.Request) {
 			w.Write([]byte("message : " + err.Error()))
 			return
 		}
-
-		editSelectedData.Format_start = editSelectedData.Start_date.Format("2 January 2006")
-		editSelectedData.Format_end = editSelectedData.End_date.Format("2 January 2006")
-
-		Blogs[id] = editSelectedData
-
-		fmt.Println(Blogs)
 
 		http.Redirect(w, r, "/", http.StatusMovedPermanently)
 	}
