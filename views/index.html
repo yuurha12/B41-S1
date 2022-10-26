@@ -24,16 +24,41 @@
                             </li>
                         </ul>
                     </nav>
-                    <nav class="nav-rgt">
-                        <ul class="nav justify-content-center">
-                            <li class="nav-item">                           
+                    <div>
+                        <nav class="nav-rgt">
+                            <ul class="nav justify-content-center">
+                                <li class="nav-item">                           
+                                {{if .Data.IsLogin}}
+                                    <li>
+                                        <a href="" class="nav-link">Hello, {{.Data.UserName}}</a>
+                                    </li>
+                                    <li>
+                                        <a href="/logout" class="nav-link list-active">Logout</a>
+                                    </li>
+                                    {{else}}
+                                    <li>
+                                        <a href="/form-register" class="nav-link">Register</a>
+                                    </li>
+                                    <li>
+                                        <a href="/form-login" class="nav-link">Login</a>
+                                    </li>
+                                    {{end}}
+                                </li>
                                 <a href="/contact">
                                     <button type="button" class="btn btn-dark">Contact Me</button>
                                 </a>
                             </li>
                         </ul>
                     </nav>
+                    </div>
                 </nav>
+
+                {{if .flashData}}
+                <div class="alert" role="alert">
+                    <strong>{{.FlashData}}</strong>
+                </div>
+                {{end}}
+
                 <div class="container">
                     <div class="card d-flex justify-content-center max-width:100% max-height:100%; p-3">
                         <div class="card-body">
@@ -80,12 +105,13 @@
                 <center>
                     <h1>My Project</h1>
                 </center>
-                <div class="blog">
-                    <div id="contents" class="blog-list">
-                        <!-- dynamic content here -->
-                        {{range $index, $data := .Blogs}}
-                        <div class="blog-list-item">
-                            <div class="blog-image">
+                <div class="container">
+                    <div class=" card blog">
+                        <div id="contents" class="blog-list card-body row justify-content-sm-start">
+                            <!-- dynamic content here -->
+                            {{range $id, $data := .Blogs}}
+                            <div class="blog-list-item col-sm-4 border border-dark justify-content-between">
+                                <div class="blog-image">
                                 <img src="/public/images/cd.jpg">
                             </div>
                             <div class="blog-content">
@@ -112,7 +138,7 @@
                                     <i style="padding:10px ; font-size: 30px;"  class="fa-brands fa-google-play"></i>
                                     <i style="padding:10px ; font-size: 30px;" class="fa-brands fa-android"></i>
                                     <i style="padding:10px ;font-size: 30px;" class="fa-brands fa-java"></i>
-
+                                    
                                 </div>
                                 <div class="btn-group">
                                     <a href="/edit-form-blog/{{$data.Id}}" class="btn-edit">Edit</a>
@@ -122,6 +148,7 @@
                         </div>
                         {{end}}
                     </div>
+                </div>
                 </div>
         </div>
     </body>

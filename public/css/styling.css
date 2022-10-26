@@ -19,7 +19,7 @@ body nav {
 }
 
 .col {
-    margin-top: 80px;
+    margin-top: 40px;
 }
 
 #ctc a button {
@@ -32,6 +32,11 @@ body nav {
     font-size: 20px;
     color: black;
 }
+
+.nav-rgt ul li a {
+    color: black;
+    font-size: 20px;
+    }
 
 .nav-rgt a button{
     font-size: 20px;

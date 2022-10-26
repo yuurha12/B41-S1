@@ -1,0 +1,16 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.container-fluid {
+    height: 92vh;
+}
+
+.container-form {
+    width: 500px;
+}
+
+.nav-item .nav-link a {
+    color: black;
+}
