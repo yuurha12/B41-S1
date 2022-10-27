@@ -53,9 +53,9 @@
                     </div>
                 </nav>
 
-                {{if .flashData}}
-                <div class="alert" role="alert">
-                    <strong>{{.FlashData}}</strong>
+               {{if .Data.FlashData}}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>{{.Data.FlashData}}</strong>
                 </div>
                 {{end}}
 
