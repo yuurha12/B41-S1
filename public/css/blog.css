@@ -58,15 +58,6 @@ body {
 
 
 .blog-form form .input-blog-image-group {
-    width: 100%;
-    font-size: 20px;
-    font-weight: 400;
-    padding: 8px;
-    margin-top: 5px;
-    margin-bottom: 20px;
-    background: #f4f3f3;
-    border: 1px solid #c4c4c4;
-    border-radius: 8px;
     cursor: pointer;
 }
 
@@ -180,11 +171,9 @@ border-radius: 8px;
 }
 
 .blog-form form button {
-    margin-top: 50px;
     padding: 8px 20px;
     font-size: 17px;
-    background: #ec4d37;
-    border-radius: 8px;
+    background: #968a8a;
     border: none;
     color: #fff;
     cursor: pointer;

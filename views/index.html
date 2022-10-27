@@ -112,7 +112,7 @@
                             {{range $id, $data := .Blogs}}
                             <div class="blog-list-item col-sm-4 border border-dark justify-content-between">
                                 <div class="blog-image">
-                                <img src="/public/images/cd.jpg">
+                                <img src="/uploads/{{$data.Image}}">
                             </div>
                             <div class="blog-content">
                                 <h2>
@@ -126,7 +126,7 @@
                                     </h6>
                                 </div>
                                 <div class="detail-blog-content">
-                                    {{$data.Format_start}} - {{$data.Format_end}} 
+                                    {{$data.Format_start}} - {{$data.Format_end}} | {{$data.Author}}
                                 </div>
                                 <div>
                                     {{$data.Technologies}} | id {{$data.Id}}

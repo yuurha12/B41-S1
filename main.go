@@ -2,7 +2,8 @@ package main
 
 import (
 	"context"
-	"day-11/connection"
+	"day-12/connection"
+	"day-12/middleware"
 	"fmt"
 	"html/template"
 	"log"
@@ -34,6 +35,7 @@ type Blog struct {
 	End_date     time.Time
 	Format_start string
 	Format_end   string
+	Author       string
 	Duration     string
 	Description  string
 	Technologies string
@@ -76,6 +78,7 @@ func main() {
 
 	// route path folder untuk public
 	route.PathPrefix("/public/").Handler(http.StripPrefix("/public/", http.FileServer(http.Dir("./public"))))
+	route.PathPrefix("/uploads/").Handler(http.StripPrefix("/uploads/", http.FileServer(http.Dir("./uploads"))))
 
 	//routing
 	route.HandleFunc("/", home).Methods("GET")
@@ -83,10 +86,10 @@ func main() {
 	route.HandleFunc("/blog", blog).Methods("GET")
 	route.HandleFunc("/blog-detail/{id}", blogDetail).Methods("GET")
 	route.HandleFunc("/form-blog", formAddBlog).Methods("GET")
-	route.HandleFunc("/add-blog", addBlog).Methods("POST")
+	route.HandleFunc("/add-blog", middleware.UploadFile(addBlog)).Methods("POST")
 	route.HandleFunc("/delete-blog/{id}", deleteBlog).Methods("GET")
 	route.HandleFunc("/edit-form-blog/{id}", editForm).Methods("GET")
-	route.HandleFunc("/edit-blog/{id}", editBlog).Methods("POST")
+	route.HandleFunc("/edit-blog/{id}", middleware.UploadFile(editBlog)).Methods("POST")
 
 	route.HandleFunc("/form-register", formRegister).Methods("GET")
 	route.HandleFunc("/register", register).Methods("POST")
@@ -118,13 +121,13 @@ func home(w http.ResponseWriter, r *http.Request) {
 		Data.UserName = session.Values["Name"].(string)
 	}
 
-	rows, _ := connection.Conn.Query(context.Background(), "SELECT id, name, start_date, end_date, description, technologies, image FROM tb_projects")
+	rows, _ := connection.Conn.Query(context.Background(), "SELECT tb_projects.id, tb_projects.name, start_date, end_date, description, technologies, image, author_id FROM tb_projects LEFT JOIN tb_user ON 'tb_projects.author_id' = 'tb_user.name' ORDER BY id DESC")
 
 	var result []Blog // array data
 
 	for rows.Next() {
 		var each = Blog{} //call struct
-		err := rows.Scan(&each.Id, &each.Name, &each.Start_date, &each.End_date, &each.Description, &each.Technologies, &each.Image)
+		err := rows.Scan(&each.Id, &each.Name, &each.Start_date, &each.End_date, &each.Description, &each.Technologies, &each.Image, &each.Author)
 		if err != nil {
 			fmt.Println(err.Error())
 			return
@@ -219,18 +222,18 @@ func blog(w http.ResponseWriter, r *http.Request) {
 		Data.UserName = session.Values["Name"].(string)
 	}
 
-	rows, _ := connection.Conn.Query(context.Background(), "SELECT id, title, content, post_date, author FROM tb_blog")
+	rows, _ := connection.Conn.Query(context.Background(), "SELECT id, name, start_date, end_date, description, technologies, image FROM tb_projects")
 
 	var result []Blog // array data
 
 	for rows.Next() {
-		var each = Blog{} // manggil struct
-
+		var each = Blog{} //call struct
 		err := rows.Scan(&each.Id, &each.Name, &each.Start_date, &each.End_date, &each.Description, &each.Technologies, &each.Image)
 		if err != nil {
 			fmt.Println(err.Error())
 			return
 		}
+		//each.Author = "Hoki"
 
 		each.Format_start = each.Start_date.Format("02-01-2006")
 		each.Format_end = each.End_date.Format("02-01-2006")
@@ -308,8 +311,8 @@ func blogDetail(w http.ResponseWriter, r *http.Request) {
 		Data.UserName = session.Values["Name"].(string)
 	}
 
-	err = connection.Conn.QueryRow(context.Background(), "SELECT id, name, start_date, end_date, description, technologies, image FROM tb_projects WHERE id=$1", id).Scan(
-		&BlogDetail.Id, &BlogDetail.Name, &BlogDetail.Start_date, &BlogDetail.End_date, &BlogDetail.Description, &BlogDetail.Technologies, &BlogDetail.Image)
+	err = connection.Conn.QueryRow(context.Background(), "SELECT id, name, start_date, end_date, description, technologies, image, author_id FROM tb_projects WHERE id=$1", id).Scan(
+		&BlogDetail.Id, &BlogDetail.Name, &BlogDetail.Start_date, &BlogDetail.End_date, &BlogDetail.Description, &BlogDetail.Technologies, &BlogDetail.Image, &BlogDetail.Author)
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -388,16 +391,21 @@ func addBlog(w http.ResponseWriter, r *http.Request) {
 	//var each.Duration string
 	var description = r.PostForm.Get("inputContent")
 	var technologies = r.PostForm.Get("js")
-	var image = r.PostForm.Get("inputImage")
+
+	var store = sessions.NewCookieStore([]byte("SESSION_KEY"))
+	session, _ := store.Get(r, "SESSION_KEY")
+	var author = session.Values["Name"].(string)
+
+	dataContex := r.Context().Value("dataFile")
+	image := dataContex.(string)
 
 	fmt.Println("Name : " + r.PostForm.Get("inputTitle")) // value berdasarkan dari tag input name
 	fmt.Println("Start : " + r.PostForm.Get("inputStart"))
 	fmt.Println("End : " + r.PostForm.Get("inputEnd"))
 	fmt.Println("Description : " + r.PostForm.Get("inputContent"))
 	fmt.Println("Technologies : " + r.PostForm.Get("js"))
-	fmt.Println("Image : " + r.PostForm.Get("inputImage"))
 
-	_, err = connection.Conn.Exec(context.Background(), "INSERT INTO tb_projects(name, start_date, end_date, description, technologies, image) VALUES ($1, $2, $3, $4, $5, $6)", name, start, end, description, technologies, image)
+	_, err = connection.Conn.Exec(context.Background(), "INSERT INTO tb_projects(name, start_date, end_date, description, technologies, image, author_id) VALUES ($1, $2, $3, $4, $5, $6, $7)", name, start, end, description, technologies, image, author)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("message : " + err.Error()))
@@ -436,6 +444,7 @@ func editForm(w http.ResponseWriter, r *http.Request) {
 
 	err = connection.Conn.QueryRow(context.Background(), "SELECT id, name, start_date, end_date, description, technologies, image FROM tb_projects WHERE id=$1", id).Scan(
 		&editSelectedData.Id, &editSelectedData.Name, &editSelectedData.Start_date, &editSelectedData.End_date, &editSelectedData.Description, &editSelectedData.Technologies, &editSelectedData.Image)
+
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("message : " + err.Error()))
@@ -444,7 +453,6 @@ func editForm(w http.ResponseWriter, r *http.Request) {
 
 	editSelectedData.Format_start = editSelectedData.Start_date.Format("2006-01-02")
 	editSelectedData.Format_end = editSelectedData.End_date.Format("2006-01-02")
-	fmt.Println(editSelectedData.Id, editSelectedData.Name, editSelectedData.Format_start, editSelectedData.Format_end, editSelectedData.Description, editSelectedData, editSelectedData.Technologies, editSelectedData.Image)
 
 	response := map[string]interface{}{
 		"editSelected": editSelectedData,
@@ -467,8 +475,9 @@ func editBlog(w http.ResponseWriter, r *http.Request) {
 		//var each.Duration string
 		var description = r.PostForm.Get("inputContent")
 		var technologies = r.PostForm.Get("js")
-		var image = r.PostForm.Get("inputImage")
-		fmt.Println(technologies)
+
+		dataContex := r.Context().Value("dataFile")
+		image := dataContex.(string)
 
 		_, err = connection.Conn.Exec(context.Background(), "UPDATE tb_projects SET name=$2, start_date=$3, end_date=$4, description=$5, technologies=$6, image=$7 WHERE id=$1", id, name, start, end, description, technologies, image)
 		if err != nil {
@@ -476,6 +485,11 @@ func editBlog(w http.ResponseWriter, r *http.Request) {
 			w.Write([]byte("message : " + err.Error()))
 			return
 		}
+
+		editSelectedData := Blog{}
+
+		editSelectedData.Format_start = editSelectedData.Start_date.Format("2006-01-02")
+		editSelectedData.Format_end = editSelectedData.End_date.Format("2006-01-02")
 
 		http.Redirect(w, r, "/", http.StatusMovedPermanently)
 	}
