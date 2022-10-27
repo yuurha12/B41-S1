@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -121,6 +122,18 @@ func home(w http.ResponseWriter, r *http.Request) {
 		Data.UserName = session.Values["Name"].(string)
 	}
 
+	fm := session.Flashes("message")
+
+	var flashes []string
+	if len(fm) > 0 {
+		session.Save(r, w)
+		for _, fl := range fm {
+			flashes = append(flashes, fl.(string))
+		}
+	}
+
+	Data.FlashData = strings.Join(flashes, "")
+
 	rows, _ := connection.Conn.Query(context.Background(), "SELECT tb_projects.id, tb_projects.name, start_date, end_date, description, technologies, image, author_id FROM tb_projects LEFT JOIN tb_user ON 'tb_projects.author_id' = 'tb_user.name' ORDER BY id DESC")
 
 	var result []Blog // array data
@@ -164,12 +177,6 @@ func home(w http.ResponseWriter, r *http.Request) {
 			each.Duration = strconv.Itoa(int(months)) + " Months"
 		} else if differHours > year {
 			each.Duration = strconv.Itoa(int(years)) + " Years"
-		}
-
-		if session.Values["IsLogin"] != true {
-			each.IsLogin = false
-		} else {
-			each.IsLogin = session.Values["IsLogin"].(bool)
 		}
 
 		result = append(result, each)

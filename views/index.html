@@ -53,9 +53,9 @@
                     </div>
                 </nav>
 
-                {{if .flashData}}
-                <div class="alert" role="alert">
-                    <strong>{{.FlashData}}</strong>
+                {{if .Data.FlashData}}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>{{.Data.FlashData}}</strong>
                 </div>
                 {{end}}
 
@@ -135,9 +135,9 @@
                                     <p>{{$data.Description}}</p>
                                 </div>
                                 <div id="app">
-                                    <i style="padding:10px ; font-size: 30px;"  class="fa-brands fa-google-play"></i>
-                                    <i style="padding:10px ; font-size: 30px;" class="fa-brands fa-android"></i>
-                                    <i style="padding:10px ;font-size: 30px;" class="fa-brands fa-java"></i>
+                                    <i style="padding:10px ; font-size: 30px;"  class="fa-brands fa-js"></i>
+                                    <i style="padding:10px ; font-size: 30px;" class="fa-brands fa-node-js"></i>
+                                    <i style="padding:10px ;font-size: 30px;" class="fa-brands fa-vuejs"></i>
                                     
                                 </div>
                                 <div class="btn-group">
