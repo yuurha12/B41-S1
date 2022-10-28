@@ -79,6 +79,7 @@ func main() {
 
 	// route path folder untuk public
 	route.PathPrefix("/public/").Handler(http.StripPrefix("/public/", http.FileServer(http.Dir("./public"))))
+	//route untuk upload
 	route.PathPrefix("/uploads/").Handler(http.StripPrefix("/uploads/", http.FileServer(http.Dir("./uploads"))))
 
 	//routing
