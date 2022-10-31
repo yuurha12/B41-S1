@@ -139,6 +139,10 @@ border-radius: 8px;
     height: 25px;
 }
 
+.input-checkbox label {
+    padding-left: 15px;
+}
+
 
 .btn-pst {
     justify-content: center;

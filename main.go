@@ -41,7 +41,7 @@ type Blog struct {
 	Author       string
 	Duration     string
 	Description  string
-	Technologies string
+	Technologies []string
 	Image        string
 	IsLogin      bool
 }
@@ -407,7 +407,7 @@ func addBlog(w http.ResponseWriter, r *http.Request) {
 	var end = r.PostForm.Get("inputEnd")
 	//var each.Duration string
 	var description = r.PostForm.Get("inputContent")
-	var technologies = r.PostForm.Get("js")
+	var technologies = []string{r.PostForm.Get("node"), r.PostForm.Get("react"), r.PostForm.Get("nextjs"), r.PostForm.Get("typescript")}
 
 	var store = sessions.NewCookieStore([]byte("SESSION_KEY"))
 	session, _ := store.Get(r, "SESSION_KEY")
@@ -490,7 +490,7 @@ func editBlog(w http.ResponseWriter, r *http.Request) {
 		var end = r.PostForm.Get("inputEnd")
 		//var each.Duration string
 		var description = r.PostForm.Get("inputContent")
-		var technologies = r.PostForm.Get("js")
+		var technologies = []string{r.PostForm.Get("node"), r.PostForm.Get("react"), r.PostForm.Get("nextjs"), r.PostForm.Get("typescript")}
 
 		dataContex := r.Context().Value("dataFile")
 		image := dataContex.(string)

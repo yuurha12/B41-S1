@@ -62,20 +62,60 @@
                                     <h2>Technologies</h2>
                                 </div>
                             </div>
-                            <div class="input-checkbox" id="input-checkbox">
+                        <div class="input-checkbox row" id="input-checkbox">
+                            <div  class="row pl-5 pt-3">
+
+                                {{if eq (index .editSelected.Technologies 0) "NodeJs"}}
                                 <div>
-                                <input type="checkbox" id="js" name="js" value="{Node Js}" onchange="some_var=this.checked;">
-                                <label for="js1"> Node Js</label>
-                                <input type="checkbox" id="js" name="js" value="{React Js}" onchange="some_var=this.checked;">
-                                <label for="js2"> React Js</label>
+                                    <input class="form-check-input me-1 me-md-2 shadow" type="checkbox" id="node" name="node" value="NodeJs" checked>
+                                    <label class="form-check-label pt-tech" for="node">Node Js</label>
+                                </div>
+                                {{else}}
+                                <div class="col-5 pt-3">
+                                    <input class="form-check-input me-1 me-md-2 shadow" type="checkbox" id="node" name="node" value="NodeJs">
+                                    <label class="form-check-label pt-tech" for="node">Node Js</label>
+                                </div>
+                                {{end}}
+                                
+                                {{if eq (index .editSelected.Technologies 1) "ReactJs"}}
+                                <div class="col-5 pt-3">
+                                    <input class="form-check-input me-1 me-md-2 shadow" type="checkbox" id="react" name="react" value="ReactJs" checked>
+                                    <label class="form-check-label pt-tech" for="react">React Js</label>
+                                </div>
+                                {{else}}
+                                <div class="col-5 pt-3">
+                                    <input class="form-check-input me-1 me-md-2 shadow" type="checkbox" id="react" name="react" value="ReactJs">
+                                    <label class="form-check-label pt-tech" for="react">React Js</label>
+                                </div>
                             </div>
-                            <div>
-                                <input type="checkbox" id="js" name="js" value="{Next Js}" onchange="some_var=this.checked;">
-                                <label for="js3"> Next Js</label>
-                                <input type="checkbox" style="position: relative; left: 6px ;" id="js" name="js" value="{TypeScript}" onchange="some_var=this.checked;">
-                                <label for="js4" style="position: relative ; left:5px;"> TypeScript</label>
-                            </div>     
+                            {{end}}
+                            <div class="row pl-5 pt-3"> 
+                                {{if eq (index .editSelected.Technologies 2) "NextJs"}}
+                                <div class="col-5 pb-3">
+                                    <input class="form-check-input me-1 me-md-2 shadow" type="checkbox" id="nextjs" name="nextjs" value="NextJs" checked>
+                                    <label class="form-check-label pt-tech" for="nextjs">Next Js</label>
+                                </div>
+                                {{else}}
+                                <div class="col-5 pb-3">
+                                    <input class="form-check-input me-1 me-md-2 shadow" type="checkbox" id="nextjs" name="nextjs" value="NextJs">
+                                    <label class="form-check-label pt-tech" for="nextjs">Next Js</label>
+                                </div>
+                                {{end}}
+                                
+                                {{if eq (index .editSelected.Technologies 3) "TypeScript"}}
+                                <div class="col-5 pb-3">
+                                    <input class="form-check-input me-1 me-md-2 shadow" type="checkbox" id="typescript" name="typescript" value="TypeScript" checked>
+                                    <label class="form-check-label pt-tech" for="typescript">TypeScript</label>
+                                </div>
+                                {{else}}
+                                <div class="col-5 pb-3">
+                                    <input class="form-check-input me-1 me-md-2 shadow" type="checkbox" id="typescript" name="typescript" value="TypeScript">
+                                    <label class="form-check-label pt-tech" for="typescript">TypeScript</label>
+                                </div>
+                                {{end}}
+                            </div>
                         </div>
+                        
                         <div class="input-blog-image-group">
                             <label for="input-blog-images" class="form-label" style="font-size:35px; font-weight:600; position: relative; left: 22px;">Upload image</label>
                             <input name="inputImage" id="input-blog-image" type="file" value="{{.editSelected.Image}}" style="border: 2px solid; background-color: rgb(150, 138, 138); width: 500px;cursor: pointer; " />

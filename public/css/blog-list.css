@@ -90,9 +90,10 @@ border-radius: 8px;
 
 
 .blog-image img{
-    width: 300px;
+    width: 100%;
     height: 250px;
     flex: 1;
+    align-items: center;
 
 }
 
@@ -254,4 +255,8 @@ border-radius: 8px;
 
 .blog i {
     justify-content: center;
+}
+
+.techImg {
+ width: 45px;   
 }

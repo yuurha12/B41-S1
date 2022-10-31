@@ -106,12 +106,12 @@
                     <h1>My Project</h1>
                 </center>
                 <div class="container">
-                    <div class=" card blog">
+                    <div class="blog">
                         <div id="contents" class="blog-list card-body row justify-content-sm-start">
                             <!-- dynamic content here -->
                             {{range $id, $data := .Blogs}}
-                            <div class="blog-list-item col-sm-4 border border-dark justify-content-between">
-                                <div class="blog-image">
+                            <div class="blog-list-item col-sm-3 card justify-content-between">
+                                <div class="blog-image d-flex justify-content-center">
                                 <img src="/uploads/{{$data.Image}}">
                             </div>
                             <div class="blog-content">
@@ -129,16 +129,22 @@
                                     {{$data.Format_start}} - {{$data.Format_end}} | {{$data.Author}}
                                 </div>
                                 <div>
-                                    {{$data.Technologies}} | id {{$data.Id}}
-                                </div>
-                                <div>
                                     <p>{{$data.Description}}</p>
                                 </div>
-                                <div id="app">
-                                    <i style="padding:10px ; font-size: 30px;"  class="fa-brands fa-js"></i>
-                                    <i style="padding:10px ; font-size: 30px;" class="fa-brands fa-node-js"></i>
-                                    <i style="padding:10px ;font-size: 30px;" class="fa-brands fa-vuejs"></i>
-                                    
+                                
+                                <div>
+                                    {{range $id, $data := $data.Technologies}}
+                                    {{if eq $data "NodeJs"}}
+                                        <img class="techImg pl-3" src="../public/images/nodejs.png">
+                                    {{else if eq $data "ReactJs"}}
+                                        <img class="techImg pl-3" src="../public/images/react.png">
+                                    {{else if eq $data "NextJs"}}
+                                        <img class="techImg pl-3" src="../public/images/next.png">
+                                    {{else if eq $data "TypeScript"}}
+                                        <img class="techImg pl-3" src="../public/images/ts.png">
+                                    {{end}}
+                                {{end}}
+
                                 </div>
                                 <div class="btn-group">
                                     <a href="/edit-form-blog/{{$data.Id}}" class="btn-edit">Edit</a>
