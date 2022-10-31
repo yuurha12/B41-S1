@@ -81,12 +81,12 @@ func main() {
 
 	connection.DatabaseConnect()
 
-	// route path folder untuk public
+	// route path folder for public
 	route.PathPrefix("/public/").Handler(http.StripPrefix("/public/", http.FileServer(http.Dir("./public"))))
-	//route untuk upload
+	//route for upload
 	route.PathPrefix("/uploads/").Handler(http.StripPrefix("/uploads/", http.FileServer(http.Dir("./uploads"))))
 
-	//routing page dan post data
+	//routing page and post data
 	route.HandleFunc("/", home).Methods("GET")
 	route.HandleFunc("/contact", contact).Methods("GET")
 	route.HandleFunc("/blog", blog).Methods("GET")
