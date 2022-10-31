@@ -1,4 +1,4 @@
-module day-12
+module day-final
 
 go 1.19
 

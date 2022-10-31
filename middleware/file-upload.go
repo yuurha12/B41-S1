@@ -19,7 +19,7 @@ func UploadFile(next http.HandlerFunc) http.HandlerFunc {
 			return
 		}
 		defer file.Close()
-		fmt.Printf("Uploaded File: %+v\n", handler.Filename)
+		//fmt.Printf("Uploaded File: %+v\n", handler.Filename)
 
 		// set destination to save file
 		tempFile, err := ioutil.TempFile("uploads", "image-*"+handler.Filename)

@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
-	"day-12/connection"
-	"day-12/middleware"
+	"day-final/connection"
+	"day-final/middleware"
 	"fmt"
 	"html/template"
 	"log"
@@ -17,6 +17,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// Struct for session
 type MetaData struct {
 	Title     string
 	IsLogin   bool
@@ -29,6 +30,7 @@ var Data = MetaData{
 	Title: "web",
 }
 
+// struct for Blog
 type Blog struct {
 	Id           int
 	Name         string
@@ -44,6 +46,7 @@ type Blog struct {
 	IsLogin      bool
 }
 
+// struct for User session data
 type User struct {
 	Id       int
 	Name     string
@@ -72,6 +75,7 @@ var Blogs = []Blog{
 	},*/
 }
 
+// route function for all page
 func main() {
 	route := mux.NewRouter()
 
@@ -82,7 +86,7 @@ func main() {
 	//route untuk upload
 	route.PathPrefix("/uploads/").Handler(http.StripPrefix("/uploads/", http.FileServer(http.Dir("./uploads"))))
 
-	//routing
+	//routing page dan post data
 	route.HandleFunc("/", home).Methods("GET")
 	route.HandleFunc("/contact", contact).Methods("GET")
 	route.HandleFunc("/blog", blog).Methods("GET")
@@ -103,9 +107,11 @@ func main() {
 	http.ListenAndServe("localhost:5000", route)
 }
 
+// home page
 func home(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
+	//file for html
 	var tmpl, err = template.ParseFiles("views/index.html")
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -113,6 +119,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	//session condition
 	var store = sessions.NewCookieStore([]byte("SESSION_KEY"))
 	session, _ := store.Get(r, "SESSION_KEY")
 
@@ -125,6 +132,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 
 	fm := session.Flashes("message")
 
+	//alert login
 	var flashes []string
 	if len(fm) > 0 {
 		session.Save(r, w)
@@ -135,6 +143,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 
 	Data.FlashData = strings.Join(flashes, "")
 
+	//call query from table/database pgadmin4
 	rows, _ := connection.Conn.Query(context.Background(), "SELECT tb_projects.id, tb_projects.name, start_date, end_date, description, technologies, image, author_id FROM tb_projects LEFT JOIN tb_user ON 'tb_projects.author_id' = 'tb_user.name' ORDER BY id DESC")
 
 	var result []Blog // array data
@@ -148,13 +157,13 @@ func home(w http.ResponseWriter, r *http.Request) {
 		}
 		//each.Author = "Hoki"
 
+		//format date
 		each.Format_start = each.Start_date.Format("02-01-2006")
 		each.Format_end = each.End_date.Format("02-01-2006")
 
 		layoutDate := "2006-01-02"
 		startParse, _ := time.Parse(layoutDate, each.Start_date.Format("2006-01-02"))
 		endParse, _ := time.Parse(layoutDate, each.End_date.Format("2006-01-02"))
-		fmt.Println(startParse)
 
 		hour := 1
 		day := hour * 24
@@ -164,7 +173,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 
 		differHour := endParse.Sub(startParse).Hours()
 		var differHours int = int(differHour)
-		// fmt.Println(differHours)
+
 		days := differHours / day
 		weeks := differHours / week
 		months := differHours / month
@@ -183,8 +192,6 @@ func home(w http.ResponseWriter, r *http.Request) {
 		result = append(result, each)
 	}
 
-	fmt.Println(result)
-
 	respData := map[string]interface{}{
 		"Data":  Data,
 		"Blogs": result,
@@ -194,6 +201,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, respData)
 }
 
+// contact page
 func contact(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
@@ -208,10 +216,9 @@ func contact(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, nil)
 }
 
+// blog page
 func blog(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-
-	// fmt.Println(Blogs)
 
 	var tmpl, err = template.ParseFiles("views/blog.html")
 	if err != nil {
@@ -241,7 +248,6 @@ func blog(w http.ResponseWriter, r *http.Request) {
 			fmt.Println(err.Error())
 			return
 		}
-		//each.Author = "Hoki"
 
 		each.Format_start = each.Start_date.Format("02-01-2006")
 		each.Format_end = each.End_date.Format("02-01-2006")
@@ -249,7 +255,6 @@ func blog(w http.ResponseWriter, r *http.Request) {
 		layoutDate := "2006-01-02"
 		startParse, _ := time.Parse(layoutDate, each.Start_date.Format("2006-01-02"))
 		endParse, _ := time.Parse(layoutDate, each.End_date.Format("2006-01-02"))
-		fmt.Println(startParse)
 
 		hour := 1
 		day := hour * 24
@@ -259,7 +264,7 @@ func blog(w http.ResponseWriter, r *http.Request) {
 
 		differHour := endParse.Sub(startParse).Hours()
 		var differHours int = int(differHour)
-		// fmt.Println(differHours)
+
 		days := differHours / day
 		weeks := differHours / week
 		months := differHours / month
@@ -284,8 +289,6 @@ func blog(w http.ResponseWriter, r *http.Request) {
 		result = append(result, each)
 	}
 
-	fmt.Println(result)
-
 	respData := map[string]interface{}{
 		"Data":  Data,
 		"Blogs": result,
@@ -295,9 +298,11 @@ func blog(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, respData)
 }
 
+// blog detail page
 func blogDetail(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
+	//for id project/blogs
 	id, _ := strconv.Atoi(mux.Vars(r)["id"])
 
 	var tmpl, err = template.ParseFiles("views/blog-detail.html")
@@ -307,6 +312,7 @@ func blogDetail(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	//array struct blog
 	var BlogDetail = Blog{}
 
 	var store = sessions.NewCookieStore([]byte("SESSION_KEY"))
@@ -333,7 +339,6 @@ func blogDetail(w http.ResponseWriter, r *http.Request) {
 	layoutDate := "2006-01-02"
 	startParse, _ := time.Parse(layoutDate, BlogDetail.Start_date.Format("2006-01-02"))
 	endParse, _ := time.Parse(layoutDate, BlogDetail.End_date.Format("2006-01-02"))
-	fmt.Println(startParse)
 
 	hour := 1
 	day := hour * 24
@@ -343,7 +348,7 @@ func blogDetail(w http.ResponseWriter, r *http.Request) {
 
 	differHour := endParse.Sub(startParse).Hours()
 	var differHours int = int(differHour)
-	// fmt.Println(differHours)
+
 	days := differHours / day
 	weeks := differHours / week
 	months := differHours / month
@@ -374,6 +379,7 @@ func blogDetail(w http.ResponseWriter, r *http.Request) {
 
 }
 
+// page form addblog
 func formAddBlog(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
@@ -388,11 +394,14 @@ func formAddBlog(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, nil)
 }
 
+// send addblog data
 func addBlog(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	//input data from form input
 	var name = r.PostForm.Get("inputTitle")
 	var start = r.PostForm.Get("inputStart")
 	var end = r.PostForm.Get("inputEnd")
@@ -407,12 +416,7 @@ func addBlog(w http.ResponseWriter, r *http.Request) {
 	dataContex := r.Context().Value("dataFile")
 	image := dataContex.(string)
 
-	fmt.Println("Name : " + r.PostForm.Get("inputTitle")) // value berdasarkan dari tag input name
-	fmt.Println("Start : " + r.PostForm.Get("inputStart"))
-	fmt.Println("End : " + r.PostForm.Get("inputEnd"))
-	fmt.Println("Description : " + r.PostForm.Get("inputContent"))
-	fmt.Println("Technologies : " + r.PostForm.Get("js"))
-
+	//query call
 	_, err = connection.Conn.Exec(context.Background(), "INSERT INTO tb_projects(name, start_date, end_date, description, technologies, image, author_id) VALUES ($1, $2, $3, $4, $5, $6, $7)", name, start, end, description, technologies, image, author)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -420,13 +424,14 @@ func addBlog(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	//redirect after submit to home
 	http.Redirect(w, r, "/", http.StatusMovedPermanently)
 }
 
 func deleteBlog(w http.ResponseWriter, r *http.Request) {
 	id, _ := strconv.Atoi(mux.Vars(r)["id"])
-	fmt.Println(id)
 
+	//command to delete post from query/db pgadmin4
 	_, err := connection.Conn.Exec(context.Background(), "DELETE FROM tb_projects WHERE id=$1", id)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -446,6 +451,7 @@ func editForm(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Message : " + err.Error()))
 		return
 	}
+	//id which post want to delete
 	id, _ := strconv.Atoi(mux.Vars(r)["id"])
 
 	editSelectedData := Blog{}
@@ -475,8 +481,10 @@ func editBlog(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	} else {
+		//which post want to edit
 		id, _ := strconv.Atoi(mux.Vars(r)["id"])
 
+		//to show what content are gonna be update
 		var name = r.PostForm.Get("inputTitle")
 		var start = r.PostForm.Get("inputStart")
 		var end = r.PostForm.Get("inputEnd")
@@ -523,6 +531,7 @@ func register(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
+	//registration input form in form-register
 	var name = r.PostForm.Get("inputName")
 	var email = r.PostForm.Get("inputEmail")
 	var password = r.PostForm.Get("inputPass")
@@ -599,6 +608,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 	session.Values["Name"] = user.Name
 	session.Options.MaxAge = 100000 // 3 jam
 
+	//alert/notification login success
 	session.AddFlash("Successfully Login", "message")
 	session.Save(r, w)
 
@@ -606,7 +616,6 @@ func login(w http.ResponseWriter, r *http.Request) {
 }
 
 func logout(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("logout")
 
 	var store = sessions.NewCookieStore([]byte("SESSION_KEY"))
 	session, _ := store.Get(r, "SESSION_KEY")
