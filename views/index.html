@@ -102,14 +102,20 @@
                     </div>
                 </div>
                 <hr>
+                {{if .Data.IsLogin}}
                 <center>
                     <h1>My Project</h1>
                 </center>
+                {{else}}
+                <center>
+                    <h1>PROJECT</h1>
+                </center>
+                {{end}}
                 <div class="container">
                     <div class="blog">
                         <div id="contents" class="blog-list card-body row justify-content-sm-start">
                             <!-- dynamic content here -->
-                            {{range $id, $data := .Blogs}}
+                            {{range $id, $data := .blogData}}
                             <div class="blog-list-item col-sm-3 card justify-content-between">
                                 <div class="blog-image d-flex justify-content-center">
                                 <img src="/uploads/{{$data.Image}}">
@@ -121,17 +127,16 @@
                                     </a>
                                 </h2>
                                 <div>
+                                </div>
+                                <div class="detail-blog-content">
                                     <h6>
                                         Duration : {{$data.Duration}}
                                     </h6>
-                                </div>
-                                <div class="detail-blog-content">
-                                    {{$data.Format_start}} - {{$data.Format_end}} | {{$data.Author}}
+                                    
                                 </div>
                                 <div>
                                     <p>{{$data.Description}}</p>
-                                </div>
-                                
+                                </div> 
                                 <div>
                                     {{range $id, $data := $data.Technologies}}
                                     {{if eq $data "NodeJs"}}
@@ -144,11 +149,13 @@
                                         <img class="techImg pl-3" src="../public/images/ts.png">
                                     {{end}}
                                 {{end}}
-
-                                </div>
+                            </div>
                                 <div class="btn-group">
+                                    {{if $data.IsLogin}}
                                     <a href="/edit-form-blog/{{$data.Id}}" class="btn-edit">Edit</a>
                                     <a href="/delete-blog/{{$data.Id}}" class="btn-post">Delete</a>
+                                    {{else}}
+                                    {{end}}
                                 </div>
                             </div>
                         </div>

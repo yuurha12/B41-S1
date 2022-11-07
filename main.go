@@ -17,9 +17,10 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// Struct for session
+// Struct for session data
 type MetaData struct {
 	Title     string
+	UserId    int
 	IsLogin   bool
 	UserName  string
 	Password  string
@@ -28,6 +29,14 @@ type MetaData struct {
 
 var Data = MetaData{
 	Title: "web",
+}
+
+// struct for User data
+type User struct {
+	Id       int
+	Name     string
+	Email    string
+	Password string
 }
 
 // struct for Blog
@@ -46,21 +55,13 @@ type Blog struct {
 	IsLogin      bool
 }
 
-// struct for User session data
-type User struct {
-	Id       int
-	Name     string
-	Email    string
-	Password string
-}
-
 var Blogs = []Blog{
 	/*{
 		Id:           0,
 		Name:         "Dumbways mobile app-2021",
 		Start_date:   "2022-10-17",
 		End_date:     "2022-10-24",
-		Duration:     "1 Weeks",
+		Duration:     "1 Minggu",
 		Description:  "Test",
 		Technologies: "Node Js",
 	},
@@ -69,7 +70,7 @@ var Blogs = []Blog{
 		Name:         "Dumbways mobile app-2021",
 		Start_date:   "2022-10-17",
 		End_date:     "2022-10-24",
-		Duration:     "1 Weeks",
+		Duration:     "1 Minggu",
 		Description:  "Test",
 		Technologies: "Node Js",
 	},*/
@@ -110,95 +111,83 @@ func main() {
 // home page
 func home(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	tmpl, err := template.ParseFiles("views/index.html")
 
-	//file for html
-	var tmpl, err = template.ParseFiles("views/index.html")
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("message : " + err.Error()))
 		return
-	}
 
-	//session condition
-	var store = sessions.NewCookieStore([]byte("SESSION_KEY"))
-	session, _ := store.Get(r, "SESSION_KEY")
-
-	if session.Values["IsLogin"] != true {
-		Data.IsLogin = false
 	} else {
-		Data.IsLogin = session.Values["IsLogin"].(bool)
-		Data.UserName = session.Values["Name"].(string)
-	}
+		Data = MetaData{}
 
-	fm := session.Flashes("message")
+		var store = sessions.NewCookieStore([]byte("SESSION_KEY"))
+		session, _ := store.Get(r, "SESSION_KEY")
 
-	//alert login
-	var flashes []string
-	if len(fm) > 0 {
-		session.Save(r, w)
-		for _, fl := range fm {
-			flashes = append(flashes, fl.(string))
-		}
-	}
+		if session.Values["IsLogin"] != true {
+			Data.IsLogin = false
+		} else {
+			fm := session.Flashes("message")
+			var flashes []string
+			if len(fm) > 0 {
+				session.Save(r, w)
+				for _, fl := range fm {
+					flashes = append(flashes, fl.(string))
+				}
+			}
 
-	Data.FlashData = strings.Join(flashes, "")
-
-	//call query from table/database pgadmin4
-	rows, _ := connection.Conn.Query(context.Background(), "SELECT tb_projects.id, tb_projects.name, start_date, end_date, description, technologies, image, author_id FROM tb_projects LEFT JOIN tb_user ON 'tb_projects.author_id' = 'tb_user.name' ORDER BY id DESC")
-
-	var result []Blog // array data
-
-	for rows.Next() {
-		var each = Blog{} //call struct
-		err := rows.Scan(&each.Id, &each.Name, &each.Start_date, &each.End_date, &each.Description, &each.Technologies, &each.Image, &each.Author)
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-		//each.Author = "Hoki"
-
-		//format date
-		each.Format_start = each.Start_date.Format("02-01-2006")
-		each.Format_end = each.End_date.Format("02-01-2006")
-
-		layoutDate := "2006-01-02"
-		startParse, _ := time.Parse(layoutDate, each.Start_date.Format("2006-01-02"))
-		endParse, _ := time.Parse(layoutDate, each.End_date.Format("2006-01-02"))
-
-		hour := 1
-		day := hour * 24
-		week := hour * 24 * 7
-		month := hour * 24 * 30
-		year := hour * 24 * 365
-
-		differHour := endParse.Sub(startParse).Hours()
-		var differHours int = int(differHour)
-
-		days := differHours / day
-		weeks := differHours / week
-		months := differHours / month
-		years := differHours / year
-
-		if differHours < week {
-			each.Duration = strconv.Itoa(int(days)) + " Days"
-		} else if differHours < month {
-			each.Duration = strconv.Itoa(int(weeks)) + " Weeks"
-		} else if differHours < year {
-			each.Duration = strconv.Itoa(int(months)) + " Months"
-		} else if differHours > year {
-			each.Duration = strconv.Itoa(int(years)) + " Years"
+			Data.IsLogin = session.Values["IsLogin"].(bool)
+			Data.UserId = session.Values["Id"].(int)
+			Data.UserName = session.Values["Name"].(string)
+			Data.FlashData = strings.Join(flashes, "")
 		}
 
-		result = append(result, each)
-	}
+		if !Data.IsLogin {
+			var blogData []Blog
+			dataDb, _ := connection.Conn.Query(context.Background(), "SELECT id, name, start_date, end_date, duration, description, technologies, image FROM tb_projects")
+			for dataDb.Next() {
+				each := Blog{}
+				err := dataDb.Scan(&each.Id, &each.Name, &each.Start_date, &each.End_date, &each.Duration, &each.Description, &each.Technologies, &each.Image)
+				if err != nil {
+					fmt.Println(err.Error())
+					return
+				}
+				blogData = append(blogData, each)
+			}
 
-	respData := map[string]interface{}{
-		"Data":  Data,
-		"Blogs": result,
-	}
+			response := map[string]interface{}{
+				"Data":     Data,
+				"blogData": blogData,
+			}
 
-	w.WriteHeader(http.StatusOK)
-	tmpl.Execute(w, respData)
+			w.WriteHeader(http.StatusOK)
+			tmpl.Execute(w, response)
+
+		} else {
+			var blogData []Blog
+			dataDb, _ := connection.Conn.Query(context.Background(), "SELECT tb_projects.id, tb_projects.name, start_date, end_date, duration, description, technologies, image FROM tb_projects LEFT JOIN tb_user ON tb_projects.author_id = tb_user.id WHERE tb_user.id = $1 ORDER BY id DESC", Data.UserId)
+			for dataDb.Next() {
+				each := Blog{}
+				err := dataDb.Scan(&each.Id, &each.Name, &each.Start_date, &each.End_date, &each.Duration, &each.Description, &each.Technologies, &each.Image)
+				if err != nil {
+					fmt.Println(err.Error())
+					return
+				}
+
+				each.IsLogin = Data.IsLogin
+
+				blogData = append(blogData, each)
+			}
+
+			response := map[string]interface{}{
+				"Data":     Data,
+				"blogData": blogData,
+			}
+
+			w.WriteHeader(http.StatusOK)
+			tmpl.Execute(w, response)
+		}
+	}
 }
 
 // contact page
@@ -235,6 +224,7 @@ func blog(w http.ResponseWriter, r *http.Request) {
 	} else {
 		Data.IsLogin = session.Values["IsLogin"].(bool)
 		Data.UserName = session.Values["Name"].(string)
+		Data.UserId = session.Values["Id"].(int)
 	}
 
 	rows, _ := connection.Conn.Query(context.Background(), "SELECT id, name, start_date, end_date, description, technologies, image FROM tb_projects")
@@ -271,13 +261,13 @@ func blog(w http.ResponseWriter, r *http.Request) {
 		years := differHours / year
 
 		if differHours < week {
-			each.Duration = strconv.Itoa(int(days)) + " Days"
+			each.Duration = strconv.Itoa(int(days)) + " Hari"
 		} else if differHours < month {
-			each.Duration = strconv.Itoa(int(weeks)) + " Weeks"
+			each.Duration = strconv.Itoa(int(weeks)) + " Minggu"
 		} else if differHours < year {
-			each.Duration = strconv.Itoa(int(months)) + " Months"
+			each.Duration = strconv.Itoa(int(months)) + " Bulan"
 		} else if differHours > year {
-			each.Duration = strconv.Itoa(int(years)) + " Years"
+			each.Duration = strconv.Itoa(int(years)) + " Tahun"
 		}
 
 		if session.Values["IsLogin"] != true {
@@ -323,10 +313,11 @@ func blogDetail(w http.ResponseWriter, r *http.Request) {
 	} else {
 		Data.IsLogin = session.Values["IsLogin"].(bool)
 		Data.UserName = session.Values["Name"].(string)
+		Data.UserId = session.Values["Id"].(int)
 	}
 
-	err = connection.Conn.QueryRow(context.Background(), "SELECT id, name, start_date, end_date, description, technologies, image, author_id FROM tb_projects WHERE id=$1", id).Scan(
-		&BlogDetail.Id, &BlogDetail.Name, &BlogDetail.Start_date, &BlogDetail.End_date, &BlogDetail.Description, &BlogDetail.Technologies, &BlogDetail.Image, &BlogDetail.Author)
+	err = connection.Conn.QueryRow(context.Background(), "SELECT id, name, start_date, end_date, duration, description, technologies, image, author_id FROM tb_projects WHERE id=$1", id).Scan(
+		&BlogDetail.Id, &BlogDetail.Name, &BlogDetail.Start_date, &BlogDetail.End_date, &BlogDetail.Duration, &BlogDetail.Description, &BlogDetail.Technologies, &BlogDetail.Image, &BlogDetail.Author)
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -335,34 +326,6 @@ func blogDetail(w http.ResponseWriter, r *http.Request) {
 	}
 	BlogDetail.Format_start = BlogDetail.Start_date.Format("2 January 2006")
 	BlogDetail.Format_end = BlogDetail.End_date.Format("2 January 2006")
-
-	layoutDate := "2006-01-02"
-	startParse, _ := time.Parse(layoutDate, BlogDetail.Start_date.Format("2006-01-02"))
-	endParse, _ := time.Parse(layoutDate, BlogDetail.End_date.Format("2006-01-02"))
-
-	hour := 1
-	day := hour * 24
-	week := hour * 24 * 7
-	month := hour * 24 * 30
-	year := hour * 24 * 365
-
-	differHour := endParse.Sub(startParse).Hours()
-	var differHours int = int(differHour)
-
-	days := differHours / day
-	weeks := differHours / week
-	months := differHours / month
-	years := differHours / year
-
-	if differHours < week {
-		BlogDetail.Duration = strconv.Itoa(int(days)) + " Days"
-	} else if differHours < month {
-		BlogDetail.Duration = strconv.Itoa(int(weeks)) + " Weeks"
-	} else if differHours < year {
-		BlogDetail.Duration = strconv.Itoa(int(months)) + " Months"
-	} else if differHours > year {
-		BlogDetail.Duration = strconv.Itoa(int(years)) + " Years"
-	}
 
 	if session.Values["IsLogin"] != true {
 		BlogDetail.IsLogin = false
@@ -388,10 +351,24 @@ func formAddBlog(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Message : " + err.Error()))
 		return
-	}
+	} else {
+		var store = sessions.NewCookieStore([]byte("SESSION_KEY"))
+		session, _ := store.Get(r, "SESSION_KEY")
 
-	w.WriteHeader(http.StatusOK)
-	tmpl.Execute(w, nil)
+		if session.Values["IsLogin"] != true {
+			Data.IsLogin = false
+		} else {
+			Data.IsLogin = session.Values["IsLogin"].(bool)
+			Data.UserId = session.Values["Id"].(int)
+			Data.UserName = session.Values["Name"].(string)
+		}
+		response := map[string]interface{}{
+			"Data": Data,
+		}
+
+		w.WriteHeader(http.StatusOK)
+		tmpl.Execute(w, response)
+	}
 }
 
 // send addblog data
@@ -405,19 +382,43 @@ func addBlog(w http.ResponseWriter, r *http.Request) {
 	var name = r.PostForm.Get("inputTitle")
 	var start = r.PostForm.Get("inputStart")
 	var end = r.PostForm.Get("inputEnd")
-	//var each.Duration string
+	var duration string
 	var description = r.PostForm.Get("inputContent")
 	var technologies = []string{r.PostForm.Get("node"), r.PostForm.Get("react"), r.PostForm.Get("nextjs"), r.PostForm.Get("typescript")}
-
-	var store = sessions.NewCookieStore([]byte("SESSION_KEY"))
-	session, _ := store.Get(r, "SESSION_KEY")
-	var author = session.Values["Name"].(string)
 
 	dataContex := r.Context().Value("dataFile")
 	image := dataContex.(string)
 
+	layoutDate := "2006-01-02"
+	startParse, _ := time.Parse(layoutDate, start)
+	endParse, _ := time.Parse(layoutDate, end)
+
+	hour := 1
+	day := hour * 24
+	week := hour * 24 * 7
+	month := hour * 24 * 30
+	year := hour * 24 * 365
+
+	differHour := endParse.Sub(startParse).Hours()
+	var differHours int = int(differHour)
+
+	days := differHours / day
+	weeks := differHours / week
+	months := differHours / month
+	years := differHours / year
+
+	if differHours < week {
+		duration = strconv.Itoa(int(days)) + " Hari"
+	} else if differHours < month {
+		duration = strconv.Itoa(int(weeks)) + " Minggu"
+	} else if differHours < year {
+		duration = strconv.Itoa(int(months)) + " Bulan"
+	} else if differHours > year {
+		duration = strconv.Itoa(int(years)) + " Tahun"
+	}
+
 	//query call
-	_, err = connection.Conn.Exec(context.Background(), "INSERT INTO tb_projects(name, start_date, end_date, description, technologies, image, author_id) VALUES ($1, $2, $3, $4, $5, $6, $7)", name, start, end, description, technologies, image, author)
+	_, err = connection.Conn.Exec(context.Background(), "INSERT INTO tb_projects(name, start_date, end_date, duration, description, technologies, image, author_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", name, start, end, duration, description, technologies, image, Data.UserId)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("message : " + err.Error()))
@@ -450,30 +451,41 @@ func editForm(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Message : " + err.Error()))
 		return
+	} else {
+		var store = sessions.NewCookieStore([]byte("SESSION_KEY"))
+		session, _ := store.Get(r, "SESSION_KEY")
+
+		if session.Values["IsLogin"] != true {
+			Data.IsLogin = false
+		} else {
+			Data.IsLogin = session.Values["IsLogin"].(bool)
+			Data.UserName = session.Values["Name"].(string)
+		}
+		//id which post want to delete
+		id, _ := strconv.Atoi(mux.Vars(r)["id"])
+
+		editSelectedData := Blog{}
+
+		err = connection.Conn.QueryRow(context.Background(), "SELECT id, name, start_date, end_date, duration, description, technologies, image FROM tb_projects WHERE id=$1", id).Scan(
+			&editSelectedData.Id, &editSelectedData.Name, &editSelectedData.Start_date, &editSelectedData.End_date, &editSelectedData.Duration, &editSelectedData.Description, &editSelectedData.Technologies, &editSelectedData.Image)
+
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("message : " + err.Error()))
+			return
+		}
+
+		editSelectedData.Format_start = editSelectedData.Start_date.Format("2006-01-02")
+		editSelectedData.Format_end = editSelectedData.End_date.Format("2006-01-02")
+
+		response := map[string]interface{}{
+			"editSelected": editSelectedData,
+			"Data":         Data,
+		}
+
+		w.WriteHeader(http.StatusOK)
+		tmpl.Execute(w, response)
 	}
-	//id which post want to delete
-	id, _ := strconv.Atoi(mux.Vars(r)["id"])
-
-	editSelectedData := Blog{}
-
-	err = connection.Conn.QueryRow(context.Background(), "SELECT id, name, start_date, end_date, description, technologies, image FROM tb_projects WHERE id=$1", id).Scan(
-		&editSelectedData.Id, &editSelectedData.Name, &editSelectedData.Start_date, &editSelectedData.End_date, &editSelectedData.Description, &editSelectedData.Technologies, &editSelectedData.Image)
-
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte("message : " + err.Error()))
-		return
-	}
-
-	editSelectedData.Format_start = editSelectedData.Start_date.Format("2006-01-02")
-	editSelectedData.Format_end = editSelectedData.End_date.Format("2006-01-02")
-
-	response := map[string]interface{}{
-		"editSelected": editSelectedData,
-	}
-
-	w.WriteHeader(http.StatusOK)
-	tmpl.Execute(w, response)
 }
 
 func editBlog(w http.ResponseWriter, r *http.Request) {
@@ -488,24 +500,47 @@ func editBlog(w http.ResponseWriter, r *http.Request) {
 		var name = r.PostForm.Get("inputTitle")
 		var start = r.PostForm.Get("inputStart")
 		var end = r.PostForm.Get("inputEnd")
-		//var each.Duration string
+		var duration string
 		var description = r.PostForm.Get("inputContent")
 		var technologies = []string{r.PostForm.Get("node"), r.PostForm.Get("react"), r.PostForm.Get("nextjs"), r.PostForm.Get("typescript")}
+
+		layoutDate := "2006-01-02"
+		startParse, _ := time.Parse(layoutDate, start)
+		endParse, _ := time.Parse(layoutDate, end)
+
+		hour := 1
+		day := hour * 24
+		week := hour * 24 * 7
+		month := hour * 24 * 30
+		year := hour * 24 * 365
+
+		differHour := endParse.Sub(startParse).Hours()
+		var differHours int = int(differHour)
+
+		days := differHours / day
+		weeks := differHours / week
+		months := differHours / month
+		years := differHours / year
+
+		if differHours < week {
+			duration = strconv.Itoa(int(days)) + " Hari"
+		} else if differHours < month {
+			duration = strconv.Itoa(int(weeks)) + " Minggu"
+		} else if differHours < year {
+			duration = strconv.Itoa(int(months)) + " Bulan"
+		} else if differHours > year {
+			duration = strconv.Itoa(int(years)) + " Tahun"
+		}
 
 		dataContex := r.Context().Value("dataFile")
 		image := dataContex.(string)
 
-		_, err = connection.Conn.Exec(context.Background(), "UPDATE tb_projects SET name=$2, start_date=$3, end_date=$4, description=$5, technologies=$6, image=$7 WHERE id=$1", id, name, start, end, description, technologies, image)
+		_, err = connection.Conn.Exec(context.Background(), "UPDATE tb_projects SET name=$2, start_date=$3, end_date=$4, duration=$5, description=$6, technologies=$7, image=$8 WHERE id=$1", id, name, start, end, duration, description, technologies, image)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("message : " + err.Error()))
 			return
 		}
-
-		editSelectedData := Blog{}
-
-		editSelectedData.Format_start = editSelectedData.Start_date.Format("2006-01-02")
-		editSelectedData.Format_end = editSelectedData.End_date.Format("2006-01-02")
 
 		http.Redirect(w, r, "/", http.StatusMovedPermanently)
 	}
@@ -606,10 +641,11 @@ func login(w http.ResponseWriter, r *http.Request) {
 	}
 	session.Values["IsLogin"] = true
 	session.Values["Name"] = user.Name
+	session.Values["Id"] = user.Id
 	session.Options.MaxAge = 100000 // 3 jam
 
 	//alert/notification login success
-	session.AddFlash("Successfully Login", "message")
+	session.AddFlash("Login Success", "message")
 	session.Save(r, w)
 
 	http.Redirect(w, r, "/", http.StatusMovedPermanently)
